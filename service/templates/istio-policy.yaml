@@ -1,0 +1,16 @@
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: {{ include "deployment.fullname" . }}-policy
+spec:
+  targets:
+  - name: {{ include "deployment.fullname" . }}
+  origins:
+  - jwt:
+      issuer: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7"
+      jwksUri: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys"
+      trigger_rules:
+      - excluded_paths:
+        - exact: /health
+        - exact: /
+  principalBinding: USE_ORIGIN
