@@ -1,22 +1,24 @@
+{{- $environment := printf "%s" (include "service.environment" .) -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "deployment.fullname" . }}
+  name: {{ include "service.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "deployment.name" . }}
-    helm.sh/chart: {{ include "deployment.chart" . }}
+    app.kubernetes.io/name: {{ include "service.name" . }}
+    helm.sh/chart: {{ include "service.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "deployment.name" . }}
+      app.kubernetes.io/name: {{ include "service.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "deployment.name" . }}
+        app.kubernetes.io/name: {{ include "service.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
@@ -24,25 +26,30 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: NODE_ENV
-              value: {{ .Values.NODE_ENV }}
+          {{- range .Values.envs }}
+            - name: {{ .name | quote }}
+              value: {{ .value | quote }}
+          {{- end }}
           envFrom:
+          {{- range .Values.secretRefs }}
             - secretRef:
-                name: client-api-secrets
+                name: {{ . | quote}}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.target }}
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /health
-              port: http
+              path: {{ .Values.health.path | quote }}
+              port: {{ .Values.service.target }}
           readinessProbe:
             httpGet:
-              path: /health
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+              path: {{ .Values.health.path | quote }}
+              port: {{ .Values.service.target }}
+          {{ if ne $environment "production" }}
+          {{ include "service.database.neo4j"  . | indent 8 }}
+          {{ end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

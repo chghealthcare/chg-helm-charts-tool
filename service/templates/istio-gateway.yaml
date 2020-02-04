@@ -1,3 +1,4 @@
+{{- $istiogateway := printf "%s" (include "service.istiogateway" .) -}}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -7,7 +8,7 @@ spec:
     istio: ingressgateway # use istio default controller
   servers:
   - hosts:
-    - "{{ .Release.Name }}.{{.Values.vgateway.host}}"
+    - "{{ .Release.Name }}.{{$istiogateway}}"
     port:
         number: 80
         name: http
@@ -15,7 +16,7 @@ spec:
     tls:
       httpsRedirect: true
   - hosts:
-    - "{{ .Release.Name }}.{{.Values.vgateway.host}}"
+    - "{{ .Release.Name }}.{{ $istiogateway }}"
     port:
         number: 443
         name: https
