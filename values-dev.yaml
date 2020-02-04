@@ -1,0 +1,8 @@
+environment: development
+envs: 
+  - name: BOX_URL
+    value: https://somebox.url
+  - name: BOX_KEY
+    value: 12345
+  - name: BOX_SECRET
+    value: boxdev
