@@ -18,6 +18,10 @@ fullnameOverride: ""
 # database for the project. options [development, stage, production]
 environment: 'production'
 
+# default to no database. Supported types are neo4j and mysql
+databasetype: ''
+
+
 # we include the option to overide the environment variable for backwards
 # compatability, but please use the environment variable above.
 # NODE_ENV: 'stage'
@@ -57,6 +61,7 @@ auth:
     enabled: true
     issuer: "https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7"
     jwks: 'https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7/v1/keys'
+
 
 envs: []
 # - name: ENVIRONMENT

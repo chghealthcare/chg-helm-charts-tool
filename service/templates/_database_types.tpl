@@ -1,4 +1,5 @@
-{{- define "service.database.neo4j" }}
+{{- define "service.database" }}
+{{- if eq .Values.databasetype "neo4j" }}
 - name: {{ .Chart.Name }}-neo4j
   image: "977624198390.dkr.ecr.us-west-2.amazonaws.com/neo4j:latest"
   imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -16,4 +17,5 @@
   - name: http
   containerPort: {{ .Values.service.target }}
   protocol: TCP
+{{- end }}
 {{- end }}
