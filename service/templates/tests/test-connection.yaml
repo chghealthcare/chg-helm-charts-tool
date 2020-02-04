@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "deployment.fullname" . }}-test-connection"
+  name: "{{ include "service.fullname" . }}-test-connection"
   labels:
-    app.kubernetes.io/name: {{ include "deployment.name" . }}
-    helm.sh/chart: {{ include "deployment.chart" . }}
+    app.kubernetes.io/name: {{ include "service.name" . }}
+    helm.sh/chart: {{ include "service.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
@@ -14,5 +14,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args:  ['{{ include "deployment.fullname" . }}:{{ .Values.service.port }}/health']
+      args:  ['{{ include "service.fullname" . }}:{{ .Values.service.port }}/health']
   restartPolicy: Never

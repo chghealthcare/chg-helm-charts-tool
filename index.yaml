@@ -3,11 +3,11 @@ entries:
   service:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-01-22T16:55:08.800006-05:00"
+    created: "2020-02-04T13:15:16.902309-07:00"
     description: A Helm chart for Kubernetes
-    digest: 0f2892b689b3ebd893df5122123dd6aeadd7c58deda86d0dff1a68d4578e6015
+    digest: 76260afa5ddd7241ce73a42172a530dec0bdbe790e82c434c0346e646f1551d8
     name: service
     urls:
-    - https://chgdev.github.io/chg-helm-charts-tool/service-0.1.0.tgz
+    - service-0.1.0.tgz
     version: 0.1.0
-generated: "2020-01-22T16:55:08.797917-05:00"
+generated: "2020-02-04T13:15:16.900914-07:00"

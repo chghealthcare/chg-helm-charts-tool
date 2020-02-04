@@ -1,14 +1,15 @@
+{{- $auth := pluck .Values.environment .Values.auth | first | default .Values.auth._default -}}
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: {{ include "deployment.fullname" . }}-policy
+  name: {{ include "service.fullname" . }}-policy
 spec:
   targets:
-  - name: {{ include "deployment.fullname" . }}
+  - name: {{ include "service.fullname" . }}
   origins:
   - jwt:
-      issuer: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7"
-      jwksUri: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys"
+      issuer: {{ $auth.issuer }}
+      jwksUri: {{ $auth.jwks }}
       trigger_rules:
       - excluded_paths:
         - exact: /health

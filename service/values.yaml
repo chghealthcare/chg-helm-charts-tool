@@ -1,25 +1,75 @@
-# Default values for deployment.
+# Default values for service.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
+
 image:
-  repository: 
-  tag: stable
+  repository: # [REQUIRED]
+  tag: stable # [REQUIRED]
   pullPolicy: IfNotPresent
 
 nameOverride: ""
 fullnameOverride: ""
 
-NODE_ENV: 'development'
+# [REQUIRED]
+# this is a required field, and how we determin wether to build a temp
+# database for the project. options [development, stage, production]
+environment: 'production'
 
+# we include the option to overide the environment variable for backwards
+# compatability, but please use the environment variable above.
+# NODE_ENV: 'stage'
+
+# the service feilds are to map the containers service to the pod. Please note
+# that this chart uses istio so the virtual service also relies on these
+# values.
 service:
   type: IPCluster
   port: 8232
   target: 8080
-vgateway:
-  host: default.dev
+
+# The health variables are currently used in the test-connection yaml to help
+# determin your service is up and running.
+health:
+  path: '/health'
+
+# [REQUIRED]
+# So each deployment gets its own gateway that maps through the virtual service
+# into the service and finally into the pod.
+istiogateway:
+  _default: "dev.cs.aws.chgit.com"
+  stage: "dev.cs.aws.chgit.com"
+  production: "prod.cs.aws.chgit.com"
+
+# The default values here are 
+auth:
+  _default:
+    enabled: true
+    issuer: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7"
+    jwks: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys'
+  stage:
+    enabled: true
+    issuer: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7"
+    jwks: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys'
+  production:
+    enabled: true
+    issuer: "https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7"
+    jwks: 'https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7/v1/keys'
+
+envs: []
+# - name: ENVIRONMENT
+#   value: production
+# - name: CAT
+#   value: Man
+
+# secrets -- Creates a secret for the application. All variables passed in env.
+# Uses envFrom in the deployment specification to pass these all through.
+secretRefs: []
+# - client-api
+# - global-one
+
 ingress:
   enabled: false
   annotations: {}
@@ -33,7 +83,7 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
+# "977624198390.dkr.ecr.us-west-2.amazonaws.com/neo4j:latest"
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
