@@ -1,4 +1,5 @@
 environment: development
+databasetype: 'neo4j'
 envs: 
   - name: BOX_URL
     value: https://somebox.url

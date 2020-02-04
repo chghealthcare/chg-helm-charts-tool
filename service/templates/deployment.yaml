@@ -48,7 +48,7 @@ spec:
               path: {{ .Values.health.path | quote }}
               port: {{ .Values.service.target }}
           {{ if ne $environment "production" }}
-          {{ include "service.database.neo4j"  . | indent 8 }}
+          {{ include "service.database"  . | indent 8 }}
           {{ end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
