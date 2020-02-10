@@ -21,6 +21,9 @@ environment: 'production'
 # default to no database. Supported types are neo4j and mysql
 databasetype: ''
 
+# This is only needed if you want to implicently overide your ephemeral feature branch database
+# This does not effect your production databse type right now.
+databaseimage: 
 
 # we include the option to overide the environment variable for backwards
 # compatability, but please use the environment variable above.

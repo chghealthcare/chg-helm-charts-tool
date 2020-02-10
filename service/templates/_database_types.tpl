@@ -18,4 +18,23 @@
   containerPort: {{ .Values.service.target }}
   protocol: TCP
 {{- end }}
+{{- if eq .Values.databasetype "postgres" }}
+- name: {{ .Chart.Name }}-postgres
+  image: {{ .Values.databaseimage | default "postgres:11.2-alpine" | quote}}
+  imagePullPolicy: {{ .Values.image.pullPolicy }}
+  env:
+    {{- range .Values.envs }}
+    - name: {{ .name | quote }}
+      value: {{ .value | quote }}
+    {{- end }}
+  envFrom:
+    {{- range .Values.secretRefs }}
+    - secretRef:
+        name: {{ . | quote}}
+    {{- end }}
+  ports:
+  - name: http
+  containerPort: 5432
+  protocol: TCP
+{{- end }}
 {{- end }}

@@ -1,5 +1,5 @@
 environment: development
-databasetype: 'neo4j'
+databasetype: 'postgres'
 envs: 
   - name: BOX_URL
     value: https://somebox.url
