@@ -22,6 +22,9 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
+        {{ if ne $environment "production" }}
+        {{ include "service.database"  . | indent 8 }}
+        {{ end }}
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -47,9 +50,6 @@ spec:
             httpGet:
               path: {{ .Values.health.path | quote }}
               port: {{ .Values.service.target }}
-          {{ if ne $environment "production" }}
-          {{ include "service.database"  . | indent 8 }}
-          {{ end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
