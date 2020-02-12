@@ -46,10 +46,14 @@ spec:
             httpGet:
               path: {{ .Values.health.path | quote }}
               port: {{ .Values.service.target }}
+            initialDelaySeconds: 20
+            periodSeconds: 20
           readinessProbe:
             httpGet:
               path: {{ .Values.health.path | quote }}
               port: {{ .Values.service.target }}
+            initialDelaySeconds: 20
+            periodSeconds: 20
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
