@@ -33,8 +33,8 @@
         name: {{ . | quote}}
     {{- end }}
   ports:
-  - name: http
-  containerPort: 5432
-  protocol: TCP
+  - name: postgres
+    containerPort: 5432
+    protocol: TCP
 {{- end }}
 {{- end }}
