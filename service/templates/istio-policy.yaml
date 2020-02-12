@@ -12,6 +12,6 @@ spec:
       jwksUri: {{ $auth.jwks }}
       trigger_rules:
       - excluded_paths:
-        - exact: /health
+        - exact: {{ .Values.health.path }}
         - exact: /
   principalBinding: USE_ORIGIN
