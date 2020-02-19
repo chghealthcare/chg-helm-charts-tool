@@ -1,4 +1,5 @@
 {{- $auth := pluck .Values.environment .Values.auth | first | default .Values.auth._default -}}
+{{ if ne $auth.enabled true -}}
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -15,3 +16,4 @@ spec:
         - exact: {{ .Values.health.path }}
         - exact: /
   principalBinding: USE_ORIGIN
+{{- end -}}
