@@ -10,4 +10,12 @@ current owners are
 if you would like to contribute create a PR at 
 github.com/chg/chg-helm-charts-tool
 
+##Add helm repo
+```BASH
+helm repo add chg https://chgdev.github.io/chg-helm-charts-tool/
+```
+
 Note that this chart requires Istio to run
+
+`helm package ./service`
+`helm repo index .`
