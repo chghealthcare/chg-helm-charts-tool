@@ -16,7 +16,7 @@
   ports:
   - name: http
     containerPort: {{ .Values.service.target }}
-  protocol: TCP
+    protocol: TCP
 {{- end }}
 {{- if eq .Values.databasetype "postgres" }}
 - name: {{ .Chart.Name }}-postgres
