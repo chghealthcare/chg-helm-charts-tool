@@ -1,5 +1,4 @@
 environment: development
-databasetype: 'postgres'
 envs: 
   - name: BOX_URL
     value: https://somebox.url
@@ -7,6 +6,14 @@ envs:
     value: 12345
   - name: BOX_SECRET
     value: boxdev
+
+configMapKeys:
+  - name: MY_ENV_VAR
+    keymap: some-configmap-name
+    key: configmap.key
+
+configMaps:
+  - name: some-configmap-name
 
 auth:
   _default:
