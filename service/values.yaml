@@ -78,6 +78,14 @@ secretRefs: []
 # - client-api
 # - global-one
 
+configMaps: []
+# - some-configmap-name
+
+configMapKeys: []
+# - name: YOUR_ENV_VAR
+#   keymap: config-map-name
+#   key: key-from-config-map
+
 ingress:
   enabled: false
   annotations: {}
