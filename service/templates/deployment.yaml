@@ -38,9 +38,9 @@ spec:
           {{- range .Values.configMapKeys }}
             - name: {{ .name | quote}}
               valueFrom:
-                  configKeyMapRef:
-                      name: {{ .keymap }}
-                      key: {{ .key }}
+                configMapKeyRef:
+                    name: {{ .keymap }}
+                    key: {{ .key }}
           {{- end }}
           envFrom:
           {{- range .Values.secretRefs }}
