@@ -3,11 +3,11 @@ entries:
   service:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-03-10T11:29:28.51898-06:00"
+    created: "2020-03-10T11:30:46.046865-06:00"
     description: A Helm chart for Kubernetes
-    digest: 8dc002736dae25805a71bd593c2bfc17cb52a5be06c39ea75a12710dc446696d
+    digest: cf6abaf139af6cba1c03a1c80a1f405e8e37f6b68168100f44607f8b7af9c492
     name: service
     urls:
     - service-0.1.0.tgz
     version: 0.1.0
-generated: "2020-03-10T11:29:28.517626-06:00"
+generated: "2020-03-10T11:30:46.045475-06:00"
