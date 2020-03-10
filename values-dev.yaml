@@ -18,3 +18,7 @@ configMaps:
 auth:
   _default:
     enabled: false
+
+resources:
+  requests:
+    memory: 512Mi
