@@ -78,6 +78,11 @@ secretRefs: []
 # - client-api
 # - global-one
 
+secretKeyRefs: []
+# - name: YOUR_ENV_VAR
+#   secret: secret-store-name
+#   key: secret-key
+
 configMaps: []
 # - some-configmap-name
 

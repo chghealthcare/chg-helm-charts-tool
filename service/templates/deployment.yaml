@@ -42,14 +42,21 @@ spec:
                     name: {{ .keymap }}
                     key: {{ .key }}
           {{- end }}
+          {{- range .Values.secretKeys }}
+            - name: {{ .name | quote}}
+              valueFrom:
+                secretKeyRef:
+                    name: {{ .secret }}
+                    key: {{ .key }}
+          {{- end }}
           envFrom:
           {{- range .Values.secretRefs }}
             - secretRef:
-                name: {{ . | quote}}
+                name: {{ . }}
           {{- end }}
           {{- range .Values.configMaps }}
             - configMapRef:
-                name: {{ .name }}
+                name: {{ . }}
           {{- end }}
           ports:
             - name: http
