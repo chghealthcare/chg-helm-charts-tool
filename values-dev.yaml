@@ -8,12 +8,21 @@ envs:
     value: boxdev
 
 configMapKeys:
-  - name: MY_ENV_VAR
+  - name: MY_CONFIG_VAR
     keymap: some-configmap-name
     key: configmap.key
 
 configMaps:
-  - name: some-configmap-name
+  - some-configmap-name
+
+secretKeys:
+  - name: MY_SECRET_VAR
+    secret: some-secret-store
+    key: some-secret-key
+
+secretRefs:
+  - first-secret-store
+  - second-secret-store
 
 auth:
   _default:
