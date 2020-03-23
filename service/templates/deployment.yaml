@@ -39,24 +39,24 @@ spec:
             - name: {{ .name | quote}}
               valueFrom:
                 configMapKeyRef:
-                    name: {{ .keymap }}
-                    key: {{ .key }}
+                    name: {{ .keymap | quote }}
+                    key: {{ .key | quote }}
           {{- end }}
           {{- range .Values.secretKeys }}
             - name: {{ .name | quote}}
               valueFrom:
                 secretKeyRef:
-                    name: {{ .secret }}
-                    key: {{ .key }}
+                    name: {{ .secret | quote }}
+                    key: {{ .key | quote }}
           {{- end }}
           envFrom:
           {{- range .Values.secretRefs }}
             - secretRef:
-                name: {{ . }}
+                name: {{ . | quote }}
           {{- end }}
           {{- range .Values.configMaps }}
             - configMapRef:
-                name: {{ . }}
+                name: {{ . | quote }}
           {{- end }}
           ports:
             - name: http
