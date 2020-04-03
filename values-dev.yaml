@@ -1,33 +1,15 @@
 environment: development
-envs: 
-  - name: BOX_URL
-    value: https://somebox.url
-  - name: BOX_KEY
-    value: 12345
-  - name: BOX_SECRET
-    value: boxdev
-
-configMapKeys:
-  - name: MY_CONFIG_VAR
-    keymap: some-configmap-name
-    key: configmap.key
-
-configMaps:
-  - some-configmap-name
-
-secretKeys:
-  - name: MY_SECRET_VAR
-    secret: some-secret-store
-    key: some-secret-key
-
-secretRefs:
-  - first-secret-store
-  - second-secret-store
-
-auth:
-  _default:
-    enabled: false
 
 resources:
+  limits:
+    memory: "1024Mi"
   requests:
-    memory: 512Mi
+    memory: "512Mi"
+
+health:
+  path: '/actuator/health'
+
+configMapKeys:
+  - name: KAFKA_HOSTS
+    keymap: kafka-cluster-config
+    key: broker.tls.endpoints
