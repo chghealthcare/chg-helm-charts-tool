@@ -11,7 +11,7 @@
 apiVersion: "koudingspawn.de/v1"
 kind: Vault
 metadata:
-  name: {{ include "service.fullname" . }}
+  name: {{ $serviceName }}
 spec:
   path: {{ $envPath }}/{{ $serviceName }}
   type: "KEYVALUEV2"
