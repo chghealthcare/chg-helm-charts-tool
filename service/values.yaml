@@ -91,6 +91,11 @@ configMapKeys: []
 #   keymap: config-map-name
 #   key: key-from-config-map
 
+# If set to true, will generate a vault CRD for your service, to pull secrets from vault
+# uses your service fullname as the path in vault to the secret. Should be combined with 
+# usage of secretKeyRefs.
+# vaultCrd: true
+
 ingress:
   enabled: false
   annotations: {}
