@@ -1,0 +1,11 @@
+{{ if .Values.vaultCrd }}{{ if .Values.secretKeys }}{{ if gt (len .Values.secretKeys) 0 }}
+---
+apiVersion: "koudingspawn.de/v1"
+kind: Vault
+metadata:
+  name: {{ include "service.fullname" . }}
+spec:
+  path: {{ .Release.Namespace }}/{{ include "service.fullname" . }}
+  type: "KEYVALUEV2"
+{{ end }}{{ end }}{{ end }}
+
