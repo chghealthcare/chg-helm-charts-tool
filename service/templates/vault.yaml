@@ -5,7 +5,7 @@ kind: Vault
 metadata:
   name: {{ include "service.fullname" . }}
 spec:
-  path: {{ .Release.Namespace }}/{{ include "service.fullname" . }}
+  path: {{ (eq .Release.Namespace "feature") | ternary "dev" .Release.Namespace }}/{{ include "service.fullname" . }}
   type: "KEYVALUEV2"
 {{ end }}{{ end }}{{ end }}
 
