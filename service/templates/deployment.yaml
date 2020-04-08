@@ -1,5 +1,4 @@
 {{- $environment := printf "%s" (include "service.environment" .) -}}
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,6 +26,11 @@ spec:
         {{ end }}
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- if .Values.volume.name }}
+          volumeMounts:
+          - mountPath: {{.Values.volume.mountPath}}
+            name: {{.Values.volume.claimName}}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- .Values.resources | toYaml | nindent 12 }}
@@ -74,6 +78,12 @@ spec:
               port: {{ .Values.service.target }}
             initialDelaySeconds: 20
             periodSeconds: 20
+      {{- if .Values.volume.name }}
+      volumes:
+      - name: {{.Values.volume.name}}
+        persistentVolumeClaim:
+          claimName: {{.Values.volume.claimName}}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
