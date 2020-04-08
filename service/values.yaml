@@ -135,3 +135,8 @@ affinity:
           operator: NotIn
           values:
           - jenkins-workers
+
+volume:
+  name:
+  claimName:
+  mountPath:
