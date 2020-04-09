@@ -7,9 +7,8 @@ spec:
   hosts:
   - "{{ .Release.Name }}.{{ .Release.Namespace }}.platform.aws.chgit.com"
   gateways:
-  - {{ .Release.Namespace }}-gateway
+  - "{{ .Release.Namespace }}-gateway"
   http:
-
   - route:
     - destination:
         host: {{ include "service.fullname" . }}
