@@ -1,0 +1,88 @@
+{{- $environment := printf "%s" (include "service.environment" .) -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "service.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "service.name" . }}
+    helm.sh/chart: {{ include "service.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "service.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "service.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        {{ if ne $environment "production" }}
+        {{ include "service.database"  . | indent 8 }}
+        {{ end }}
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            {{- .Values.resources | toYaml | nindent 12 }}
+          env:
+          {{- range .Values.envs }}
+            - name: {{ .name | quote }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- range .Values.configMapKeys }}
+            - name: {{ .name | quote}}
+              valueFrom:
+                configMapKeyRef:
+                    name: {{ .keymap | quote }}
+                    key: {{ .key | quote }}
+          {{- end }}
+          {{- range .Values.secretKeys }}
+            - name: {{ .name | quote}}
+              valueFrom:
+                secretKeyRef:
+                    name: {{ .secret | quote }}
+                    key: {{ .key | quote }}
+          {{- end }}
+          envFrom:
+          {{- range .Values.secretRefs }}
+            - secretRef:
+                name: {{ . | quote }}
+          {{- end }}
+          {{- range .Values.configMaps }}
+            - configMapRef:
+                name: {{ . | quote }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.target }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.health.path | quote }}
+              port: {{ .Values.service.target }}
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.health.path | quote }}
+              port: {{ .Values.service.target }}
+            initialDelaySeconds: 20
+            periodSeconds: 20
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
