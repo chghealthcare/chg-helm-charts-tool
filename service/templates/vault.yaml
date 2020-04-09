@@ -1,0 +1,19 @@
+{{ if .Values.vaultCrd }}{{ if .Values.secretKeys }}{{ if gt (len .Values.secretKeys) 0 }}
+{{ $envPath := .Release.Namespace }}
+{{ $serviceName := include "service.fullname" . }}
+
+{{ if eq $envPath "feature" }}
+  {{ $envPath = "dev" }}
+  {{ $serviceName = .Values.project | default $serviceName }}
+{{ end}}
+
+---
+apiVersion: "koudingspawn.de/v1"
+kind: Vault
+metadata:
+  name: {{ $serviceName }}
+spec:
+  path: {{ $envPath }}/{{ $serviceName }}
+  type: "KEYVALUEV2"
+{{ end }}{{ end }}{{ end }}
+
