@@ -17,5 +17,6 @@ helm repo add chg https://chgdev.github.io/chg-helm-charts-tool/
 Note that this chart requires Istio to run
 ```bash
 helm package ./service
+helm package ./service-v1
 helm repo index .
 ```
