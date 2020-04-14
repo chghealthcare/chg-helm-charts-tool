@@ -9,6 +9,7 @@ metadata:
     helm.sh/chart: {{ include "service.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations: 
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -20,6 +21,8 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "service.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         {{ if ne $environment "production" }}
