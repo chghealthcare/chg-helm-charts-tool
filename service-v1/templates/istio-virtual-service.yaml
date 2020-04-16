@@ -14,3 +14,17 @@ spec:
         host: {{ include "service.fullname" . }}
         port:
           number: {{ .Values.service.port }}
+    corsPolicy:
+      allowOrigin:
+      - '*'
+      allowMethods:
+      - PATCH
+      - GET
+      - POST
+      - DELETE
+      - PUT
+      allowCredentials: true
+      allowHeaders:
+      - '*'
+      maxAge: "24h"
+
