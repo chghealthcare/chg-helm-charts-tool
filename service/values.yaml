@@ -14,43 +14,46 @@ nameOverride: ""
 fullnameOverride: ""
 
 # [REQUIRED]
-# this is a required field, and how we determin wether to build a temp
-# database for the project. options [development, stage, production]
+# This is a required field, and how we determine whether to build a temp
+# database for the project. 
+#
+# options [development, stage, production]
 environment: 'production'
 
-# default to no database. Supported types are neo4j and mysql
+# Database Type. Default to no database. 
+#
+# options [neo4j, mysql, postgres]
 databasetype: ''
 
-# This is only needed if you want to implicently overide your ephemeral feature branch database
-# This does not effect your production databse type right now.
+# This is only needed if you want to implicitly override your ephemeral feature branch database
+# This does not affect your production database type right now.
 databaseimage: 
 
-# we include the option to overide the environment variable for backwards
+# We include the option to overide the environment variable for backwards
 # compatability, but please use the environment variable above.
 # NODE_ENV: 'stage'
 
-# the service feilds are to map the containers service to the pod. Please note
-# that this chart uses istio so the virtual service also relies on these
-# values.
+# These service fields are to map the container's service to the pod. Please note
+# that this chart uses Istio so the virtual service also relies on these values.
 service:
   type: IPCluster
   port: 8232
   target: 8080
 
 # The health variables are currently used in the test-connection yaml to help
-# determin your service is up and running.
+# determine whether your service is up and running.
 health:
   path: '/health'
 
 # [REQUIRED]
-# So each deployment gets its own gateway that maps through the virtual service
+# Each deployment gets its own gateway that maps through the virtual service
 # into the service and finally into the pod.
 istiogateway:
   _default: "dev.cs.aws.chgit.com"
   stage: "dev.cs.aws.chgit.com"
   production: "prod.cs.aws.chgit.com"
 
-# The default values here are 
+# The default values here are: 
 auth:
   _default:
     enabled: true
@@ -91,11 +94,6 @@ configMapKeys: []
 #   keymap: config-map-name
 #   key: key-from-config-map
 
-# If set to true, will generate a vault CRD for your service, to pull secrets from vault
-# uses your service fullname as the path in vault to the secret. Should be combined with 
-# usage of secretKeyRefs.
-# vaultCrd: true
-
 ingress:
   enabled: false
   annotations: {}
@@ -112,7 +110,7 @@ ingress:
 # "977624198390.dkr.ecr.us-west-2.amazonaws.com/neo4j:latest"
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
+  # choice for the user. This also increases chances charts run on environments with minmal
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
