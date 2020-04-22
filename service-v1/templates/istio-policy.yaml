@@ -1,14 +1,37 @@
 {{- $auth := pluck .Values.environment .Values.auth | first | default .Values.auth._default -}}
 {{ if eq $auth.enabled true -}}
-# apiVersion: security.istio.io/v1beta1
-# kind: RequestAuthentication
-# metadata:
-#  name: {{ include "service.fullname" . }}-rqauth
-# spec:
-#   selector:
-#     matchLabels:
-#       app: {{ include "service.fullname" . }}
-#   jwtRules:
-#   - issuer: {{ $auth.issuer }}
-#     jwksUri: {{ $auth.jwks }}
+---
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+ name: {{ include "service.fullname" . }}-rqauth
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/name: {{ include "service.name" . }}
+  jwtRules:
+  - issuer: {{ $auth.issuer }}
+    jwksUri: {{ $auth.jwks }}
+
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ include "service.fullname" . }}-auth-policy
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/name: {{ include "service.name" . }}
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+       requestPrincipals: ["{{ $auth.issuer }}/*"]
+  - to:
+    - operation:
+        methods: ["GET"]
+        paths: ["/liveness", "/readiness", "{{ .Values.health.path }}", "/"]
+
 {{- end -}}
