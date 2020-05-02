@@ -21,7 +21,7 @@
 {{- end }}
 {{- if eq .Values.databasetype "neo4j-graphileon" }}
 - name: {{ .Chart.Name }}-neo4j
-  image: "977624198390.dkr.ecr.us-west-2.amazonaws.com/neo4j-graphileon:latest"
+  image: "977624198390.dkr.ecr.us-west-2.amazonaws.com/neo4j-graphileon:{{ .Values.image.tag }}"
   imagePullPolicy: {{ .Values.image.pullPolicy }}
   env:
     {{- range .Values.envs }}
