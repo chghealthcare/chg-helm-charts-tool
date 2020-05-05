@@ -7,16 +7,12 @@ Current owners are:
 - Ryan Hansen
 - Kevin Gwynn
 
-If you would like to contribute, create a PR at [the project page on GitHub](https://github.com/chgdev/chg-helm-charts-tool).
+If you would like to contribute, create a PR at [the project page on GitHub](https://github.com/chghealthcare/chg-helm-charts-tool).
 
 ##Add helm repo
 ```BASH
-helm repo add chg https://chgdev.github.io/chg-helm-charts-tool/
+helm repo add chg https://chghealthcare.github.io/chg-helm-charts-tool/
 ```
 
-Note that this chart requires Istio to run
-```bash
-helm package ./service
-helm package ./service-v1
-helm repo index .
-```
+before a branch gets merged you have to increment the version number in the chart you want to release.
+Github actions will build any time master branch is pushed, and a will fail unless chart has a new version.
