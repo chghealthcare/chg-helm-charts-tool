@@ -1,11 +1,11 @@
 Thanks for using the CHG Services Chart
 
-current owners are
+Current owners are
  1. Eli Baird
  2. Ryan Hansen
  3. Kevin Gwynn
 
-if you would like to contribute create a PR at 
-github.com/chg/chg-helm-charts-tool
+If you would like to contribute create a PR at 
+    github.com/chghealthcare/chg-helm-charts-tool
 
-Note that this chart requires Istio to run
+**NOTE:** that this chart requires Istio to run
