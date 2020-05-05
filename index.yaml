@@ -41,6 +41,16 @@ entries:
   worker:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2020-05-05T17:48:10.877646438Z"
+    description: A Helm chart for CHG Platform
+    digest: 18ed7783d1e8d3dd8836c0ea641e5e5848115d889d3075df9da8d4e666a29329
+    name: worker
+    type: application
+    urls:
+    - https://github.com/chghealthcare/chg-helm-charts-tool/releases/download/worker-1.0.1/worker-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2020-05-05T17:31:15.116990915Z"
     description: A Helm chart for CHG Platform
     digest: 2f37f52d52150c3b69ef7eaae52bb92583563aea4b4aab4308583fd7b534ffa8
