@@ -25,9 +25,6 @@ spec:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
-        {{ if ne $environment "production" }}
-        {{ include "service.database"  . | indent 8 }}
-        {{ end }}
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
