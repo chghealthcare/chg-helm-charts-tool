@@ -10,6 +10,8 @@ image:
   tag: stable # [REQUIRED]
   pullPolicy: IfNotPresent
 
+feature: ''
+
 nameOverride: ""
 fullnameOverride: ""
 
@@ -78,7 +80,6 @@ envs: []
 # secrets -- Creates a secret for the application. All variables passed in env.
 # Uses envFrom in the deployment specification to pass these all through.
 secretRefs: []
-# - client-api
 # - global-one
 
 secretKeyRefs: []
