@@ -1,5 +1,12 @@
 {{- $environment := printf "%s" (include "service.environment" .) -}}
-
+apiVersion: "koudingspawn.de/v1"
+kind: Vault
+metadata:
+  name: {{ include "service.fullname" . }}
+spec:
+  path: "{{ .Release.Namespace }}/{{ .Release.Name }}"
+  type: "KEYVALUEV2"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -9,7 +16,8 @@ metadata:
     helm.sh/chart: {{ include "service.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-  annotations: 
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -51,6 +59,8 @@ spec:
                     key: {{ .key | quote }}
           {{- end }}
           envFrom:
+            - secretRef:
+              name: {{ include "service.name" . }}
           {{- range .Values.secretRefs }}
             - secretRef:
                 name: {{ . | quote }}

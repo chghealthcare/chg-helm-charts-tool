@@ -1,4 +1,5 @@
 environment: development
+feature: edm-1232
 image:
   repository: 977624198390.dkr.ecr.us-west-2.amazonaws.com/demo-sa-java-service
   tag: f21a1fb893c3787474213fe2d126ebce227c25e0
