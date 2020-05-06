@@ -8,6 +8,13 @@ Expand the name of the chart.
 {{- define "service.environment" -}}
 {{- default .Values.environment .Values.NODE_ENV -}}
 {{- end -}}
+{{- define "service.environmentShort" -}}
+{{- if contains "feature" .Release.Namespace -}}
+{{- printf "%s" "dev" -}}
+{{- else -}}
+{{- printf "%s" .Release.Namespace -}}
+{{- end -}}
+{{- end -}}
 {{- define "service.istiogateway" -}}
 {{ pluck .Values.environment .Values.istiogateway | first | default .Values.istiogateway._default }}
 {{- end -}}
