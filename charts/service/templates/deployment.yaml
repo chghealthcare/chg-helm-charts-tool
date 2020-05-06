@@ -60,7 +60,7 @@ spec:
           {{- end }}
           envFrom:
             - secretRef:
-              name: {{ include "service.name" . }}
+                name: {{ include "service.name" . }}
           {{- range .Values.secretRefs }}
             - secretRef:
                 name: {{ . | quote }}
