@@ -4,7 +4,7 @@ kind: Vault
 metadata:
   name: {{ include "service.fullname" . }}
 spec:
-  path: "{{ include "service.environmentShort" . }}/{{ .Release.Name }}"
+  path: "{{ include "service.environmentShort" . }}/{{ .Values.project }}"
   type: "KEYVALUEV2"
 ---
 apiVersion: apps/v1
