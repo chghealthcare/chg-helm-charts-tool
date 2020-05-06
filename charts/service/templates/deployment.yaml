@@ -4,7 +4,7 @@ kind: Vault
 metadata:
   name: {{ include "service.fullname" . }}
 spec:
-  path: "{{ .Release.Namespace }}/{{ .Release.Name }}"
+  path: "{{ include "service.environmentShort" . }}/{{ .Release.Name }}"
   type: "KEYVALUEV2"
 ---
 apiVersion: apps/v1
@@ -33,7 +33,7 @@ spec:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
-        {{ include "service.database"  . | indent 8 }}
+        {{- include "service.database"  . | indent 8 }}
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -60,7 +60,7 @@ spec:
           {{- end }}
           envFrom:
             - secretRef:
-                name: {{ include "service.name" . }}
+                name: {{ include "service.fullname" . | quote }}
           {{- range .Values.secretRefs }}
             - secretRef:
                 name: {{ . | quote }}
