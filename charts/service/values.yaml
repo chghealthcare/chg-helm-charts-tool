@@ -16,9 +16,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 # [REQUIRED]
-# This is a required field, and how we determine whether to build a temp
-# database for the project. 
-#
+# This is a required field
 # options [development, stage, production]
 environment: 'production'
 
