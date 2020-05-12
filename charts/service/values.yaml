@@ -47,6 +47,9 @@ service:
 health:
   path: '/health'
 
+docs:
+  path: '/docs'
+
 # [REQUIRED]
 # Each deployment gets its own gateway that maps through the virtual service
 # into the service and finally into the pod.
