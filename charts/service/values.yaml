@@ -134,3 +134,7 @@ affinity:
           operator: NotIn
           values:
           - jenkins-workers
+
+persistentVolume:
+  enabled: false
+  size: 2
