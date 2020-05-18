@@ -135,6 +135,14 @@ affinity:
           values:
           - jenkins-workers
 
-persistentVolume:
+persistentVolumeClaim:
   enabled: false
-  size: 2
+  # size: 2Gi
+  # name: px-test-shared
+  type: shared # valid options: shared, shared-single, secure, postgres
+
+persistentVolume:
+  attach: false
+  # claimName: px-text-shared
+  volumeName: data
+  mountPath: /data

@@ -1,14 +1,14 @@
-{{ if eq .Values.persistentVolume.enabled true -}}
+{{ if eq .Values.persistentVolumeClaim.enabled true -}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-   name: px-test-shared
+   name: {{ .Values.persistentVolumeClaim.name }}
    annotations:
-     volume.beta.kubernetes.io/storage-class: px-shared-sc
+     volume.beta.kubernetes.io/storage-class: px-{{ .Values.persistentVolumeClaim.type }}-sc
 spec:
    accessModes:
      - ReadWriteMany
    resources:
      requests:
-       storage: {{ .Values.persistentVolume.size }}Gi
+       storage: {{ .Values.persistentVolumeClaim.size }}
 {{ end }}
