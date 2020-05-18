@@ -85,10 +85,21 @@ spec:
               port: {{ .Values.service.target }}
             initialDelaySeconds: 20
             periodSeconds: 20
+          {{ if eq .Values.persistentVolume.attach true -}}
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.mountPath }}
+              name: {{ .Values.persistentVolume.volumeName }}
+          {{ end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{ if eq .Values.persistentVolume.attach true -}}
+      volumes:
+        - name: {{ .Values.persistentVolume.volumeName }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistentVolume.claimName }}
+      {{ end }}
     {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
