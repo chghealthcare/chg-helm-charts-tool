@@ -85,20 +85,20 @@ spec:
               port: {{ .Values.service.target }}
             initialDelaySeconds: 20
             periodSeconds: 20
-          {{ if eq .Values.persistentVolume.enabled true -}}
+          {{ if eq .Values.persistentVolume.attach true -}}
           volumeMounts:
-            - mountPath: /data
-              name: data
+            - mountPath: {{ .Values.persistentVolume.mountPath }}
+              name: {{ .Values.persistentVolume.volumeName }}
           {{ end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{ if eq .Values.persistentVolume.enabled true -}}
+      {{ if eq .Values.persistentVolume.attach true -}}
       volumes:
-        - name: data
+        - name: {{ .Values.persistentVolume.volumeName }}
           persistentVolumeClaim:
-            claimName: px-test-shared
+            claimName: {{ .Values.persistentVolume.claimName }}
       {{ end }}
     {{- with .Values.affinity }}
       affinity:
