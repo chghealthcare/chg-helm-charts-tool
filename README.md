@@ -29,7 +29,7 @@ helm  template -f ./values-${env}.yaml --dry-run \
 ```
 ## Requirements 
 Requirements for a helm deployment include the following: 
-- Values files must include a `project` value that contains the name of you
+- Values files must include a `project` value that contains the name of your repo/project `chg-example-service`.
 - There must be a valid secret in Vault. The secret must be named to match the `project` value in your values file.
 
 ## Deployment Values
