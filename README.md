@@ -30,12 +30,12 @@ helm  template -f ./values-${env}.yaml --dry-run \
 ## Requirements 
 Requirements for a helm deployment include the following: 
 - Values files must include a `project` value that contains the name of your repo/project `chg-example-service`.
-- There must be a valid secret in Vault. The secret must be named to match the `project` value in your values file.
+- There must be a valid secret in Vault. The secret must be named to match the `project` value in your values file. EX: `dev/chg-example-service`. The current vault url is `https://vault.shared.aws.chgit.com/ui/vault/secrets`
 
 ## Deployment Values
 There are two ways to put values into a deployment one is with your `values-{env}.yaml` and the other is passing in your jenkins or github actions deployments `--set {variable path}=value`. The `--set` option should reserved for dynamic variables that change from build to build.
 
-Here is an example of a minimalistic values file
+Here is an example of minimalist values file
 ```yaml
 environment: development
 project: github-project-name
