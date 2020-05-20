@@ -1,4 +1,5 @@
 environment: development
+project: github-project-name
 feature: edm-1232
 image:
   repository: 977624198390.dkr.ecr.us-west-2.amazonaws.com/demo-sa-java-service
