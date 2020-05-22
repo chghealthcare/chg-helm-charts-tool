@@ -2,7 +2,7 @@
 apiVersion: "koudingspawn.de/v1"
 kind: Vault
 metadata:
-  name: {{ .Values.project }}
+  name: {{ include "service.fullname" . }}
 spec:
   path: "{{ include "service.environmentShort" . }}/{{ .Values.project }}"
   type: "KEYVALUEV2"
@@ -60,7 +60,7 @@ spec:
           {{- end }}
           envFrom:
             - secretRef:
-                name: {{ .Values.project | quote }}
+                name: {{ include "service.fullname" . | quote }}
           {{- range .Values.secretRefs }}
             - secretRef:
                 name: {{ . | quote }}
