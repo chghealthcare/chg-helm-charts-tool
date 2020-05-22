@@ -13,6 +13,7 @@ spec:
   jwtRules:
   - issuer: {{ $auth.issuer }}
     jwksUri: {{ $auth.jwks }}
+    forwardOriginalToken: {{ $auth.forwardOriginalToken }}
 
 ---
 apiVersion: security.istio.io/v1beta1
