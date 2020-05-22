@@ -61,14 +61,17 @@ auth:
     enabled: true
     issuer: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7'
     jwks: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys'
+    forwardOriginalToken: true
   stage:
     enabled: true
     issuer: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7'
     jwks: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys'
+    forwardOriginalToken: true
   production:
     enabled: true
     issuer: 'https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7'
     jwks: 'https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7/v1/keys'
+    forwardOriginalToken: true
 
 
 envs: []
