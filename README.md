@@ -187,7 +187,10 @@ affinity:
           - jenkins-workers
 ```
 
-# Contribute
+## Contribute
 If you would like to contribute, create a PR at [the project page on GitHub](https://github.com/chghealthcare/chg-helm-charts-tool).
 **NOTE:** Before a branch gets merged, you have to increment the version number in the chart you want to release.
-GitHub Actions will build any time 'master' branch is pushed, and a will fail unless chart has a new version.
+
+### PR and Build
+GitHub Actions will build any time 'master' branch is pushed, and a will fail unless chart has a new version. In example if master is version `version: 1.2.4` when you are creating your pull request then you need to make yours `version: 1.2.5`. This can get a little anoying if somone merges a PR before you and your version number is now the same as master. You will need update your version nuber again before you can merge.
+A little bit of an explanation why the version system is the way it is, since there are many charts in this repo, we can not simply use the build number to incrament the charts, and we would have to do more advanced regex to get which folder changed and then parse our the version and increment it. This would be a great feature to add if someone has time... hint hint... ;)
