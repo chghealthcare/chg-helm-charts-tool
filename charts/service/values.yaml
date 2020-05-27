@@ -4,8 +4,6 @@
 
 project: ''
 
-replicaCount: 1
-
 
 image:
   repository: # [REQUIRED]
@@ -118,11 +116,11 @@ resources: {}
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
+  #   cpu: 1
+  #   memory: 2048Mi
   # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  #   cpu: 750m
+  #   memory: 1024Mi
 
 nodeSelector: {}
 
@@ -155,3 +153,8 @@ persistentVolume:
   # claimName: px-text-shared
   volumeName: data
   mountPath: /data
+
+scaling:
+  minReplicas: 2
+  maxReplicas: 4
+  averageCpuUtilization: 50
