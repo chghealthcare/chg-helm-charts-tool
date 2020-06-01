@@ -126,7 +126,7 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity:
+affinity: 
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
@@ -136,23 +136,23 @@ affinity:
           values:
           - jenkins-workers
 
-persistentVolumeClaim:
+persistentVolumeClaim: {}
   # This should only be used if a claim does not already exist.  If there is a pre-existing 
   # claim (e.g. an existing shared volume), you need only attach a persistentVolume (below)
   # and reference the name of the existing claim.
-  enabled: false 
+  # enabled: false 
   # size: 2Gi
   # name: px-test-shared
-  type: shared # Valid options: shared, secure, postgres
-  mode: ReadWriteMany # IMPORTANT: for any type other than "shared" the mode should be set to ReadWriteOnce
+  # type: shared # Valid options: shared, secure, postgres
+  # mode: ReadWriteMany # IMPORTANT: for any type other than "shared" the mode should be set to ReadWriteOnce
 
-persistentVolume:
+persistentVolume: {}
   # Mount a volume from a persistentVolumeClaim.  If not using a pre-existing claim, you must
   # also enable a new persistentVolumeClaim (above) and reference it by name (claimName) here
-  attach: false
+  # attach: false
   # claimName: px-text-shared
-  volumeName: data
-  mountPath: /data
+  # volumeName: data
+  # mountPath: /data
 
 scaling:
   minReplicas: 2
