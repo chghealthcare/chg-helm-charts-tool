@@ -1,7 +1,9 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "service.fullname" . }} 
+  name: {{ include "service.fullname" . }}
+  annotations:
+    janitor/ttl: {{ .Values.cleanUpIn }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
