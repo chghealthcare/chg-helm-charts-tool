@@ -185,6 +185,11 @@ affinity:
           operator: NotIn
           values:
           - jenkins-workers
+
+# This value is what sets the annotation on deployed resources for auto 
+# clean up in our enabled environments IE: Feature Namespace. If you need
+# your service to stay up longer you can set this to your needs.
+cleanUpIn: 48h
 ```
 
 # Contribute

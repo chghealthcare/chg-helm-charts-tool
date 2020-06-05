@@ -2,9 +2,10 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-   name: {{ .Values.persistentVolumeClaim.name }}
-   annotations:
-     volume.beta.kubernetes.io/storage-class: px-{{ .Values.persistentVolumeClaim.type }}-sc
+  name: {{ .Values.persistentVolumeClaim.name }}
+  annotations:
+    volume.beta.kubernetes.io/storage-class: px-{{ .Values.persistentVolumeClaim.type }}-sc
+    janitor/ttl: {{ .Values.cleanUpIn }}
 spec:
    accessModes:
      - {{ .Values.persistentVolumeClaim.mode }}

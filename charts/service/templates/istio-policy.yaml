@@ -5,6 +5,8 @@ apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
  name: {{ include "service.fullname" . }}-rqauth
+ annotations:
+  janitor/ttl: {{ .Values.cleanUpIn }}
 spec:
   selector:
     matchLabels:

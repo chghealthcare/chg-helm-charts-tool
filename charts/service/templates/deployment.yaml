@@ -17,6 +17,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
+    janitor/ttl: {{ .Values.cleanUpIn }}
     reloader.stakater.com/auto: "true"
 spec:
   replicas: {{ .Values.scaling.minReplicas }}
@@ -31,6 +32,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
+        janitor/ttl: {{ .Values.cleanUpIn }}
     spec:
       {{- if .Values.persistentVolume }}
       schedulerName: stork 
