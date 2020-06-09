@@ -31,7 +31,7 @@ spec:
     - source:
         requestPrincipals: ["{{ $auth.issuer }}/*"]
     - source:
-        namespace: [{{ .Release.Namespace }}]
+        namespace: ["{{ .Release.Namespace }}"]
   - to:
     - operation:
         methods: ["GET"]
