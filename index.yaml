@@ -1,5 +1,16 @@
 apiVersion: v1
 entries:
+  chg-database-migrator:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2020-06-10T14:37:57.098666072Z"
+    description: Database migrations made easy
+    digest: 0ce762e74912eac2c6197d5b296f0ae3064d859c6317526ab2c7b63831f97238
+    name: chg-database-migrator
+    type: application
+    urls:
+    - https://github.com/chghealthcare/chg-helm-charts-tool/releases/download/chg-database-migrator-0.1.0/chg-database-migrator-0.1.0.tgz
+    version: 0.1.0
   service:
   - apiVersion: v2
     appVersion: "1.0"
