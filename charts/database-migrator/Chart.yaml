@@ -1,0 +1,6 @@
+apiVersion: v2
+name: chg-database-migrator
+description: Database migrations made easy
+type: application
+version: 0.1.0
+appVersion: 1.16.0
