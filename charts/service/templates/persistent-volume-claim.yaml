@@ -5,6 +5,8 @@ metadata:
    name: {{ .Values.persistentVolumeClaim.name }}
    annotations:
      volume.beta.kubernetes.io/storage-class: px-{{ .Values.persistentVolumeClaim.type }}-sc
+   labels:
+     app.kubernetes.io/name: {{ include "service.name" . }}
 spec:
    accessModes:
      - {{ .Values.persistentVolumeClaim.mode }}

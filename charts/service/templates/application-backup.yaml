@@ -1,0 +1,16 @@
+{{- if and .Values.applicationBackups.enabled .Values.persistentVolumeClaim -}}
+{{- $applicationBackup := printf "%s-backup-%s" (include "service.fullname" .) (now | htmlDate) -}}
+apiVersion: stork.libopenstorage.org/v1alpha1
+kind: ApplicationBackup
+metadata:
+  name: {{ $applicationBackup }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  backupLocation: {{ .Values.applicationBackups.backupLocation }}
+  namespaces:
+  - {{ .Release.Namespace }}
+  reclaimPolicy: Delete
+  selectors:
+    app.kubernetes.io/name: {{ include "service.name" . }}
+
+{{- end}}
