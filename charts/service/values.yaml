@@ -20,14 +20,22 @@ fullnameOverride: ''
 # options [development, stage, production]
 environment: 'production'
 
-# Database Type. Default to no database. 
+# Database Type. Default to no database.
 #
 # options [neo4j, mysql, postgres]
 databasetype: ''
 
 # This is only needed if you want to implicitly override your ephemeral feature branch database
 # This does not affect your production database type right now.
-databaseimage: 
+databaseimage:
+
+# Leave this blank unless you need to create one or more init containers.
+# https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+# initContainers:
+# - name: myContainerName
+#   image: my-image:version
+#   command: ['array', 'of', 'command', 'args', 'to', 'run']
+initContainers:
 
 # We include the option to overide the environment variable for backwards
 # compatability, but please use the environment variable above.
@@ -53,7 +61,7 @@ istiogateway:
   stage: 'dev.cs.aws.chgit.com'
   production: 'prod.cs.aws.chgit.com'
 
-# The default values here are: 
+# The default values here are:
 auth:
   _default:
     enabled: true
@@ -102,7 +110,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: 'true'
   hosts:
-    - host: 
+    - host:
       paths: []
 
   tls: []
@@ -126,7 +134,7 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: 
+affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
@@ -137,10 +145,10 @@ affinity:
           - jenkins-workers
 
 persistentVolumeClaim: {}
-  # This should only be used if a claim does not already exist.  If there is a pre-existing 
+  # This should only be used if a claim does not already exist.  If there is a pre-existing
   # claim (e.g. an existing shared volume), you need only attach a persistentVolume (below)
   # and reference the name of the existing claim.
-  # enabled: false 
+  # enabled: false
   # size: 2Gi
   # name: px-test-shared
   # type: shared # Valid options: shared, secure, postgres
