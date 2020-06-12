@@ -12,5 +12,4 @@ spec:
   reclaimPolicy: Delete
   selectors:
     app.kubernetes.io/name: {{ include "service.name" . }}
-
 {{- end}}
