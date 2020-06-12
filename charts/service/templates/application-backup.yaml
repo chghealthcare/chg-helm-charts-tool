@@ -1,5 +1,5 @@
 {{- if and .Values.applicationBackups.enabled .Values.persistentVolumeClaim -}}
-{{- $applicationBackup := printf "%s-backup-%s" (include "service.fullname" .) (now | htmlDate) -}}
+{{- $applicationBackup := printf "%s-backup" (include "service.fullname" .) -}}
 apiVersion: stork.libopenstorage.org/v1alpha1
 kind: ApplicationBackup
 metadata:
