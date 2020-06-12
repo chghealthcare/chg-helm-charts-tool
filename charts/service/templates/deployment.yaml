@@ -33,6 +33,7 @@ spec:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       {{- if .Values.persistentVolume }}
+      schedulerName: stork
       {{- end }}
       {{- include ".Values.initContainers"  . | indent 6 }}
       containers:
