@@ -35,7 +35,13 @@ spec:
       {{- if .Values.persistentVolume }}
       schedulerName: stork
       {{- end }}
-      {{- include ".Values.initContainers"  . | indent 6 }}
+      {{- if .Values.initContainer }}
+      initContainers:
+      - name: {{ .Values.initContainer.name }}
+        image: {{ .Values.initContainer.image }}
+        imagePullPolicy: {{ .Values.initContainer.imagePullPolicy }}
+        command: {{ .Values.initContainer.command }}
+      {{- end }}
       containers:
         {{- include "service.database"  . | indent 8 }}
         - name: {{ .Chart.Name }}
