@@ -8,6 +8,6 @@ entries:
     digest: 91bed767681162ab8e911672f50f3685cfb2cf30ade165513cb58ef59cc955e2
     name: service
     urls:
-    - service-0.2.0.tgz
-    version: 0.2.0
+    - service-0.1.0.tgz
+    version: 0.1.0
 generated: "2020-05-04T09:32:27.451941-06:00"
