@@ -122,7 +122,7 @@ ingress:
 # If a container requests a resource, Kubernetes will only schedule it on a node that can give it that resource
 # Limits make sure a container never goes above a certain value. The container is only allowed to go up to the limit, and then it is restricted.
 # If your service container is needing more resources, you are able to override these values with what is needed.
-resources: {}
+resources:
   limits:
     cpu: 500m
     memory: 512Mi
