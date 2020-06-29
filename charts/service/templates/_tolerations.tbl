@@ -1,0 +1,19 @@
+{{- define "service.tolerations" }}
+{{- if or .Values.persistentVolume .Values.persistentVolumeClaim }}
+tolerations:
+- key: "portworx"
+  operator: "Exists"
+  effect: "NoSchedule"
+{{- else if (eq .Values.environment "stage") }}
+tolerations:
+- key: "dedicated"
+  operator: "Equal"
+  value: "stage"
+  effect: "NoSchedule"
+{{- else if .Values.tolerations }}
+{{- with .Values.tolerations }}
+tolerations:
+{{- toYaml . | nindent 2 }}
+{{- end }}
+{{- end }}
+{{- end }}

@@ -111,7 +111,5 @@ spec:
             claimName: {{ .Values.persistentVolume.claimName }}
       {{- end -}}
     {{ include "service.affinity" . | indent 6 }}
-    {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+    {{ include "service.tolerations" . | indent 6 }}
+

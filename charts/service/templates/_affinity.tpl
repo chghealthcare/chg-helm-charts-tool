@@ -1,5 +1,5 @@
 {{- define "service.affinity" }}
-{{- if .Values.persistentVolume }}
+{{- if or .Values.persistentVolume .Values.persistentVolumeClaim }}
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
@@ -9,10 +9,16 @@ affinity:
           operator: NotIn
           values:
           - "false"
-        - key: worker-type
-          operator: NotIn
+{{- else if (eq .Values.environment "stage") }}
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: dedicated
+          operator: In
           values:
-          - jenkins-workers
+          - "stage"
 {{- else if .Values.affinity -}}
 {{- with .Values.affinity }}
 affinity:
