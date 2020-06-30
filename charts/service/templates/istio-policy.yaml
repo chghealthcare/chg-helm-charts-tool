@@ -37,7 +37,7 @@ spec:
         methods: 
         - "GET"
         {{ range .Values.istioAllowedMethods }}
-        - {{ . | quote }}{{end}}
+        - {{ . | quote }}{{ end }}
         paths: 
         - "/liveness"
         - "/readiness"
@@ -46,6 +46,6 @@ spec:
         - "/docs"
         - "/docs/*"
         {{ range .Values.istioAllowedPaths }}
-        - {{ . | quote }}{{end}}
+        - {{ . | quote }}{{ end }}
 
 {{- end -}}
