@@ -14,17 +14,14 @@ spec:
         host: {{ include "service.fullname" . }}
         port:
           number: {{ .Values.service.port }}
+{{ if .Values.istiogateway.corsPolicy }}
     corsPolicy:
-      allowOrigin:
-      - '*'
-      allowMethods:
-      - PATCH
-      - GET
-      - POST
-      - DELETE
-      - PUT
-      allowCredentials: true
-      allowHeaders:
-      - '*'
-      maxAge: "24h"
-
+      allowOrigin: {{ range .Values.istiogateway.corsPolicy.allowOrigin }}
+      - {{ . | quote }}{{ end }}
+      allowMethods: {{ range .Values.istiogateway.corsPolicy.allowMethods }}
+      - {{ . | quote }}{{ end }}
+      allowCredentials: {{ .Values.istiogateway.corsPolicy.allowCredentials }}
+      allowHeaders: {{ range .Values.istiogateway.corsPolicy.allowHeaders }}
+      - {{ . | quote }}{{ end }}
+      maxAge: {{ .Values.istiogateway.corsPolicy.maxAge }}
+{{ end }}

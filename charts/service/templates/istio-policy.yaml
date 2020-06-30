@@ -34,7 +34,18 @@ spec:
         namespaces: ["{{ .Release.Namespace }}"]
   - to:
     - operation:
-        methods: ["GET"]
-        paths: ["/liveness", "/readiness", "{{ .Values.health.path }}", "/", "/docs", "/docs/*"]
+        methods: 
+        - "GET"
+        {{ range .Values.istioAllowedMethods }}
+        - {{ . | quote }}{{ end }}
+        paths: 
+        - "/liveness"
+        - "/readiness"
+        - "{{ .Values.health.path }}"
+        - "/"
+        - "/docs"
+        - "/docs/*"
+        {{ range .Values.istioAllowedPaths }}
+        - {{ . | quote }}{{ end }}
 
 {{- end -}}
