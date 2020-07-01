@@ -60,6 +60,24 @@ istiogateway:
   _default: 'dev.cs.aws.chgit.com'
   stage: 'dev.cs.aws.chgit.com'
   production: 'prod.cs.aws.chgit.com'
+  corsPolicy:
+    enabled: true
+    allowMethods:
+    - 'PATCH'
+    - 'GET'
+    - 'POST'
+    - 'DELETE'
+    - 'PUT'
+    allowCredentials: true
+    maxAge: "24h"
+    allowHeaders:
+    - '*'
+    allowOrigin:
+    - '*'
+
+istioAllowedPaths: []
+istioAllowedMethods: []
+
 
 # The default values here are:
 auth:
