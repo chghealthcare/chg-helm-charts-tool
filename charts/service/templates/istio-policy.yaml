@@ -48,4 +48,5 @@ spec:
         - "/swagger-ui/*"
         {{ range .Values.istioAllowedPaths }}
         - {{ . | quote }}{{ end }}
+
 {{- end -}}
