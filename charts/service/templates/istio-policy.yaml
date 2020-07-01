@@ -35,6 +35,6 @@ spec:
   - to:
     - operation:
         methods: ["GET"]
-        paths: ["/liveness", "/readiness", "{{ .Values.health.path }}", "/", "/docs", "/docs/*", "{{ .Values.api_doc_path }}"]
+        paths: ["/liveness", "/readiness", "{{ .Values.health.path }}", "/", "/docs", "/docs/*", "/swagger-ui/*"]
 
 {{- end -}}
