@@ -45,6 +45,7 @@ spec:
         - "/"
         - "/docs"
         - "/docs/*"
+        - "/swagger-ui/*"
         {{ range .Values.istioAllowedPaths }}
         - {{ . | quote }}{{ end }}
 
