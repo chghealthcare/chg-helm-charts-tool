@@ -1,11 +1,3 @@
-{{- $environment := printf "%s" (include "service.environment" .) -}}
-apiVersion: "koudingspawn.de/v1"
-kind: Vault
-metadata:
-  name: {{ include "service.fullname" . }}
-spec:
-  path: "{{ include "service.environmentShort" . }}/{{ .Values.project }}"
-  type: "KEYVALUEV2"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -69,8 +61,10 @@ spec:
                     key: {{ .key | quote }}
           {{- end }}
           envFrom:
+          {{- if .Values.pullVaultSecrets }}
             - secretRef:
                 name: {{ include "service.fullname" . | quote }}
+          {{- end }}
           {{- range .Values.secretRefs }}
             - secretRef:
                 name: {{ . | quote }}
