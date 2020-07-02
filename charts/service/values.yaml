@@ -109,6 +109,10 @@ envs: []
 secretRefs: []
 # - global-one
 
+# pullVaultSecrets -- Will automatically place all key/value pairs in a vault secret
+# as environment variables for your service to use
+pullVaultSecrets: true
+
 secretKeyRefs: []
 # - name: YOUR_ENV_VAR
 #   secret: secret-store-name
