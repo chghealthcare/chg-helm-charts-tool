@@ -81,14 +81,14 @@ spec:
             httpGet:
               path: {{ .Values.health.path | quote }}
               port: {{ .Values.service.target }}
-            initialDelaySeconds: 20
-            periodSeconds: 20
+            initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
+            periodSeconds: {{ .Values.health.periodSeconds }}
           readinessProbe:
             httpGet:
               path: {{ .Values.health.path | quote }}
               port: {{ .Values.service.target }}
-            initialDelaySeconds: 20
-            periodSeconds: 20
+            initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
+            periodSeconds: {{ .Values.health.periodSeconds }}
           {{- if .Values.persistentVolume }}
           volumeMounts:
             - mountPath: {{ .Values.persistentVolume.mountPath }}
