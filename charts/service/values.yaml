@@ -78,6 +78,15 @@ istiogateway:
 istioAllowedPaths: []
 istioAllowedMethods: []
 
+# Example of how to specify kafka topics to be created
+# kafkaTopics
+# - name: 'someTopicName'
+#   partitions: 3
+#   replicationFactor: 2 
+# - name: 'someTopicNameDeadLetter'
+#   partitions: 3
+#   replicationFactor: 2 
+
 
 # The default values here are:
 auth:

@@ -1,0 +1,18 @@
+{{ $root := . }}
+{{ range $kafkaTopic := .Values.kafkaTopics }}
+---
+apiVersion: kafka.banzaicloud.io/v1alpha1
+kind: KafkaTopic
+metadata:
+  name: {{ if $root.Values.feature }}{{ printf "%s-%s" $root.Values.feature $kafkaTopic.name }}{{ else }}{{ $kafkaTopic.name }}{{end}}
+  namespace: kafka
+spec:
+  clusterRef:
+    name: kafka
+  name: {{ if $root.Values.feature }}{{ printf "%s-%s" $root.Values.feature $kafkaTopic.name }}{{ else }}{{ $kafkaTopic.name }}{{end}}
+  partitions: {{ $kafkaTopic.partitions | default 3 }}
+  replicationFactor: {{ $kafkaTopic.replicationFactor | default 2 }}
+  config:
+    "retention.ms": "604800000"
+    "cleanup.policy": "delete"
+{{ end }}
