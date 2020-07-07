@@ -52,6 +52,8 @@ service:
 # determine whether your service is up and running.
 health:
   path: '/health'
+  initialDelaySeconds: 20
+  periodSeconds: 20
 
 # [REQUIRED]
 # Each deployment gets its own gateway that maps through the virtual service
