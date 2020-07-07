@@ -81,13 +81,17 @@ istioAllowedPaths: []
 istioAllowedMethods: []
 
 # Example of how to specify kafka topics to be created
+# 'name' and 'envKey' are required, everything else has defaults
+#
 # kafkaTopics
 # - name: 'someTopicName'
 #   partitions: 3
 #   replicationFactor: 2 
+#   envKey: SOME_TOPIC_NAME
 # - name: 'someTopicNameDeadLetter'
 #   partitions: 3
 #   replicationFactor: 2 
+#   envKey: SOME_TOPIC_NAME_DEAD_LETTER
 
 
 # The default values here are:

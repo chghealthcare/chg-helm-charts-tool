@@ -1,3 +1,4 @@
+{{ $root := . }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -46,6 +47,10 @@ spec:
             - name: {{ .name | quote }}
               value: {{ .value | quote }}
           {{- end }}
+          {{- range .Values.kafkaTopics }}
+            - name: {{ .envKey | quote }}
+              value: {{ if $root.Values.feature }}{{ printf "%s-%s" $root.Values.feature .name }}{{ else }}{{ .name }}{{ end }}
+          {{- end }}
           {{- range .Values.configMapKeys }}
             - name: {{ .name | quote}}
               valueFrom:
@@ -54,7 +59,7 @@ spec:
                     key: {{ .key | quote }}
           {{- end }}
           {{- range .Values.secretKeys }}
-            - name: {{ .name | quote}}
+            - name: {{ .name | quote }}
               valueFrom:
                 secretKeyRef:
                     name: {{ .secret | quote }}
