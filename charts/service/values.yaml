@@ -95,12 +95,11 @@ istioAllowedMethods: []
 
 # postgres:
 #  teamId: sa
-#  clusterName: minimal-cluster # The team-id will be prefixed to the cluster-name
 #  dbName: demodb
+#  owner: saadmin
 #  version: 11  # database version
-#  namespace: feature-database # options are dev-database, feature-database, stage-database, database (prod)
-#  size: 1Gi   # database size
-#  numOfInstances: 2
+#  size: 1Gi   # database size 
+#  numberOfInstances: 2 # number of postgres instances 1 - master 2..replica
 
 
 # The default values here are:

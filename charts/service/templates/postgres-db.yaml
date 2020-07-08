@@ -1,8 +1,9 @@
+{{ if .Values.postgres }}
 apiVersion: "acid.zalan.do/v1"
 kind: postgresql
 metadata:
-  name: {{ printf "%s-%s" .Values.postgres.teamId .Values.postgres.clusterName }} 
-  namespace: {{ if eq .Release.Namespace "prod" }} database {{ else printf "%s-database" .Release.Namespace }} {{ end }}
+  name: {{ printf "%s-%s" .Values.postgres.teamId .Values.postgres.dbName }} 
+  namespace: {{ printf "%s-database" .Release.Namespace }}
 spec:
   teamId: {{ quote .Values.postgres.teamId }} 
   volume:
@@ -11,12 +12,9 @@ spec:
   numberOfInstances: {{ .Values.postgres.numberOfInstances }}
   users:
     # database owner
-    sreadmin:
+    {{ .Values.postgres.owner }}:
     - superuser
     - createdb
-
-    # role for application foo
-    foo_user: # or 'foo_user: []'
 
   #databases: name->owner
   databases:
@@ -32,3 +30,4 @@ spec:
             operator: NotIn
             values:
               - "false"
+{{ end }}
