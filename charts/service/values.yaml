@@ -93,6 +93,14 @@ istioAllowedMethods: []
 #   replicationFactor: 2 
 #   envKey: SOME_TOPIC_NAME_DEAD_LETTER
 
+# postgres:
+#  teamId: sa
+#  dbName: demodb
+#  owner: saadmin
+#  version: 11  # database version
+#  size: 1Gi   # database size 
+#  numberOfInstances: 2 # number of postgres instances 1 - master 2..replica
+
 
 # The default values here are:
 auth:

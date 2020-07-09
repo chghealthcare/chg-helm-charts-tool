@@ -65,6 +65,24 @@ spec:
                     name: {{ .secret | quote }}
                     key: {{ .key | quote }}
           {{- end }}
+          {{ if .Values.postgres }}
+            - name: POSTGRES_URL
+              value: {{ printf "%s-%s.%s-database" .Values.postgres.teamId .Values.postgres.dbName .Release.Namespace }}
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DBNAME
+              value:  {{ quote .Values.postgres.dbName }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                    name: {{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}
+                    key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                    name: {{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}
+                    key: password
+          {{- end }}
           envFrom:
           {{- if .Values.pullVaultSecrets }}
             - secretRef:
