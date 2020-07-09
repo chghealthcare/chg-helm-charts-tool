@@ -203,3 +203,14 @@ scaling:
   minReplicas: 2
   maxReplicas: 4
   averageCpuUtilization: 50
+
+
+# For creating a Job to run with your service.
+# More information here: https://kubernetes.io/docs/concepts/workloads/controllers/job/
+#jobs:
+#- containerName: 'some-job'
+#  image: 'node:12'
+#  command: ['echo', 'foobar']
+#  annotations:
+#    "helm.sh/hook": pre-install,pre-upgrade
+#    "helm.sh/hook-delete-policy": hook-succeeded
