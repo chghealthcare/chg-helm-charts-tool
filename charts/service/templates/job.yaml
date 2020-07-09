@@ -1,0 +1,64 @@
+{{ $root := . }}
+{{ range .Values.jobs }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "service.fullname" $root }}-job
+  {{ if .annotations }}
+  annotations:
+    {{ range $key, $val := .annotations }}
+    {{ $key }}: {{ $val }}
+    {{ end }}
+  {{ end }}
+spec:
+  template:
+    metadata:
+      annotations:
+        "sidecar.istio.io/inject": "false"
+    spec:
+      containers:
+      - name: {{ .containerName }}
+        image: {{ .image }}
+        command: {{ range .command }}
+        - {{ . | quote }}{{ end }}
+        env:
+          {{- range $root.Values.envs }}
+            - name: {{ .name | quote }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- range $root.Values.kafkaTopics }}
+            - name: {{ .envKey | quote }}
+              value: {{ if $root.Values.feature }}{{ printf "%s-%s" $root.Values.feature .name }}{{ else }}{{ .name }}{{ end }}
+          {{- end }}
+          {{- range $root.Values.configMapKeys }}
+            - name: {{ .name | quote}}
+              valueFrom:
+                configMapKeyRef:
+                    name: {{ .keymap | quote }}
+                    key: {{ .key | quote }}
+          {{- end }}
+          {{- range $root.Values.secretKeys }}
+            - name: {{ .name | quote }}
+              valueFrom:
+                secretKeyRef:
+                    name: {{ .secret | quote }}
+                    key: {{ .key | quote }}
+          {{- end }}
+        envFrom:
+          {{- if $root.Values.pullVaultSecrets }}
+            - secretRef:
+                name: {{ include "service.fullname" $root | quote }}
+          {{- end }}
+          {{- range $root.Values.secretRefs }}
+            - secretRef:
+                name: {{ . | quote }}
+          {{- end }}
+          {{- range $root.Values.configMaps }}
+            - configMapRef:
+                name: {{ . | quote }}
+          {{- end }}
+      restartPolicy: Never
+  backoffLimit: 4
+
+{{ end }}
