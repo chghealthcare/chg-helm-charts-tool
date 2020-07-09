@@ -4,6 +4,8 @@ apiVersion: "koudingspawn.de/v1"
 kind: Vault
 metadata:
   name: {{ include "service.fullname" . }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
 spec:
   path: "{{ include "service.environmentShort" . }}/{{ .Values.project }}"
   type: "KEYVALUEV2"
