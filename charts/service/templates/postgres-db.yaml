@@ -1,0 +1,33 @@
+{{ if .Values.postgres }}
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: {{ printf "%s-%s" .Values.postgres.teamId .Values.postgres.dbName }} 
+  namespace: {{ printf "%s-database" .Release.Namespace }}
+spec:
+  teamId: {{ quote .Values.postgres.teamId }} 
+  volume:
+    size: {{ .Values.postgres.size }} 
+    storageClass: px-postgres-sc
+  numberOfInstances: {{ .Values.postgres.numberOfInstances }}
+  users:
+    # database owner
+    {{ .Values.postgres.owner }}:
+    - superuser
+    - createdb
+
+  #databases: name->owner
+  databases:
+    {{ .Values.postgres.dbName }}: {{ .Values.postgres.owner }}
+  postgresql:
+    version: {{ quote .Values.postgres.version }} 
+  
+  nodeAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: px/enabled
+            operator: NotIn
+            values:
+              - "false"
+{{ end }}
