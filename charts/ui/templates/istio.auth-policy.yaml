@@ -1,0 +1,12 @@
+{{- if .Values.auth.enabled }}
+apiVersion: "security.cloud.ibm.com/v1"
+kind: Policy
+metadata:
+  name: {{ .Release.Name }}-oidc-policy
+  namespace: {{ .Release.Namespace }}
+spec:
+  targets:
+    - serviceName: {{ .Release.Name }}
+      paths:
+        {{ .Values.auth.oidc.targets | toYaml | nindent 8 }}
+{{- end}}

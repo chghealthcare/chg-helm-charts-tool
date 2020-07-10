@@ -1,0 +1,56 @@
+# Required
+ui_name: ''
+feature: ''
+replicas: 1
+environment: 'feature'
+
+image:
+  name: ''
+  tag: ''
+
+port: 80
+
+# You probably won't need this section, but it's here.
+env: []
+  # MY_KEY: MY_VALUE
+
+secrets:
+  vault_enabled: false
+  vault:
+    - path: ''
+      ref: ''
+  refs:
+    - ''
+
+# Define custom resources if you are sending out large payloads
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+  requests:
+    cpu: 250m
+    memory: 128Mi
+
+# Autoscaling
+scaling:
+  min: 1
+  max: 20
+  cpu_percent: 75
+  memory_percent: 75
+
+# Authorization handled by the service mesh
+auth:
+  enabled: true
+  oidc:
+    discoveryUrl: ''
+    client_id: ''
+    client_secret: ''
+    client_secret_ref:
+      key: ''
+      name: ''
+    scopes: []
+    targets:
+      - path: /
+        method: ANY
+        policies: []

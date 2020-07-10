@@ -1,0 +1,14 @@
+{{ if .Values.auth.enabled }}
+kind: OidcConfig
+metadata:
+  name: {{ .Release.Name }}-oidc-config
+  namespace: {{ .Release.Namespace }}
+spec:
+  discoveryUrl: {{ .Values.auth.oidc.discoveryUrl }}
+  clientSecret: {{ .Values.auth.oidc.client_secret }}
+  {{- if .Values.auth.oidc.client_secret_ref }}
+  clientSecretRef:
+    name: {{ .Values.auth.oidc.client_secret_ref.name }}
+    key: {{ .Values.auth.oidc.client_secret_ref.key }}
+  {{- end }}
+{{- end }}
