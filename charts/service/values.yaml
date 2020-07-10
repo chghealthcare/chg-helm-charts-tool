@@ -222,3 +222,6 @@ scaling:
 #  annotations:
 #    "helm.sh/hook": pre-install,pre-upgrade
 #    "helm.sh/hook-delete-policy": hook-succeeded
+#  envs:
+#  - name: NODE_ENV
+#    value: development
