@@ -222,3 +222,13 @@ scaling:
 #  annotations:
 #    "helm.sh/hook": pre-install,pre-upgrade
 #    "helm.sh/hook-delete-policy": hook-succeeded
+
+# For creating a PostgresSql DB Cluster
+# More information here: https://github.com/chghealthcare/chg-terraform-infrastructure/wiki/Database-as-a-Service
+#postgres:
+#  teamId: sre
+#  dbName: demodb
+#  owner: sreadmin
+#  size: 1Gi
+#  numberOfInstances: 1
+#  version: 11
