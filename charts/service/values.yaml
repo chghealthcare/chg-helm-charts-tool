@@ -222,3 +222,14 @@ scaling:
 #  annotations:
 #    "helm.sh/hook": pre-install,pre-upgrade
 #    "helm.sh/hook-delete-policy": hook-succeeded
+#
+
+
+# Spin up a redis cluster for your service to talk to, an environment variable REDIS_HOST will be set for your service to connect to the cluster with
+# Additional redis config options found here:
+# https://raw.githubusercontent.com/redis/redis/5.0/redis.conf
+#redis:
+#  replicas: 3
+#  config:
+#    maxmemory: "2mb"
+#    repl-ping-replica-period: 10
