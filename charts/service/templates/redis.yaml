@@ -8,10 +8,12 @@ metadata:
 spec:
   # required field. Minimum value is 3
   replicas: {{ .Values.redis.replicas }}
+  {{ if .Values.redis.config }}
   config:
     {{ range $key, $value := .Values.redis.config }}
     {{ $key }}: {{ $value | quote }}
     {{ end }}
+  {{ end }}
   redis:
     image: redis:5-alpine
     initialDelaySeconds: 10
