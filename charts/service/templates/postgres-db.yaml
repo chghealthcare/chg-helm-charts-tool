@@ -1,27 +1,38 @@
 {{ if .Values.postgres }}
+{{ $teamId := .Values.postgres.teamId }}
+{{ $dbName := .Values.postgres.dbName }}
+{{ $dbOwner := .Values.postgres.owner }}
+{{ $releaseNamespace := .Release.Namespace }}
+{{ $dbClusterName := printf "%s-%s" $teamId $dbName }}
+{{ $dbOwnerSecret := printf "%s.%s" $dbOwner $dbClusterName }}
+{{ $dbNamespace := printf "%s-database" $releaseNamespace }}
 apiVersion: "acid.zalan.do/v1"
 kind: postgresql
 metadata:
-  name: {{ printf "%s-%s" .Values.postgres.teamId .Values.postgres.dbName }} 
-  namespace: {{ printf "%s-database" .Release.Namespace }}
+  name: {{ $dbClusterName }}
+  namespace: {{ $dbNamespace }}
+  annotations:
+    {{- if .Values.cleanUpIn }}
+    janitor/ttl: {{ .Values.cleanUpIn }}
+    {{- end }}
 spec:
-  teamId: {{ quote .Values.postgres.teamId }} 
+  teamId: {{ quote $teamId }}
   volume:
-    size: {{ .Values.postgres.size }} 
+    size: {{ .Values.postgres.size }}
     storageClass: px-postgres-sc
   numberOfInstances: {{ .Values.postgres.numberOfInstances }}
   users:
     # database owner
-    {{ .Values.postgres.owner }}:
+    {{ $dbOwner }}:
     - superuser
     - createdb
 
   #databases: name->owner
   databases:
-    {{ .Values.postgres.dbName }}: {{ .Values.postgres.owner }}
+    {{ $dbName }}: {{ $dbOwner }}
   postgresql:
-    version: {{ quote .Values.postgres.version }} 
-  
+    version: {{ quote .Values.postgres.version }}
+
   nodeAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
     nodeSelectorTerms:
@@ -30,4 +41,20 @@ spec:
             operator: NotIn
             values:
               - "false"
+
+
+# Replicated Secret from the {Database Namespace}/{dbOwner Secret}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    replicator.v1.mittwald.de/replicate-from: {{ $dbNamespace }}/{{ $dbOwnerSecret }}
+  labels:
+    cluster-name: {{ $dbClusterName }}
+    team: {{ $teamId }}
+  name: {{ $dbOwnerSecret }}
+  namespace: {{ $releaseNamespace }}
+data: {}
+
 {{ end }}
