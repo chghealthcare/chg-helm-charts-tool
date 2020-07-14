@@ -48,6 +48,10 @@ spec:
                     name: {{ .secret | quote }}
                     key: {{ .key | quote }}
           {{- end }}
+          {{- range .envs }}
+            - name: {{ .name | quote }}
+              value: {{ .value | quote }}
+          {{- end }}
         envFrom:
           {{- if $root.Values.pullVaultSecrets }}
             - secretRef:
