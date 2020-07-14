@@ -6,6 +6,10 @@ kind: KafkaTopic
 metadata:
   name: {{ if $root.Values.feature }}{{ printf "%s-%s" $root.Values.feature $kafkaTopic.name }}{{ else }}{{ $kafkaTopic.name }}{{ end }}
   namespace: kafka
+  annotations:
+    {{- if .Values.cleanUpIn }}
+    janitor/ttl: {{ .Values.cleanUpIn }}
+    {{- end }}
 spec:
   clusterRef:
     name: kafka
