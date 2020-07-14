@@ -53,10 +53,6 @@ spec:
               value: {{ .value | quote }}
           {{- end }}
         envFrom:
-          {{- if $root.Values.pullVaultSecrets }}
-            - secretRef:
-                name: {{ include "service.fullname" $root | quote }}
-          {{- end }}
           {{- range $root.Values.secretRefs }}
             - secretRef:
                 name: {{ . | quote }}
