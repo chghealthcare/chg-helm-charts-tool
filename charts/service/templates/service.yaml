@@ -7,6 +7,10 @@ metadata:
     helm.sh/chart: {{ include "service.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    {{- if .Values.cleanUpIn }}
+    janitor/ttl: {{ .Values.cleanUpIn }}
+    {{- end }}
 spec:
   ports:
     - port: {{ .Values.service.port }}

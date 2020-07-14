@@ -4,7 +4,11 @@
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
- name: {{ include "service.fullname" . }}-rqauth
+  name: {{ include "service.fullname" . }}-rqauth
+  annotations:
+    {{- if .Values.cleanUpIn }}
+    janitor/ttl: {{ .Values.cleanUpIn }}
+    {{- end }}
 spec:
   selector:
     matchLabels:
@@ -34,11 +38,11 @@ spec:
         namespaces: ["{{ .Release.Namespace }}"]
   - to:
     - operation:
-        methods: 
+        methods:
         - "GET"
         {{ range .Values.istioAllowedMethods }}
         - {{ . | quote }}{{ end }}
-        paths: 
+        paths:
         - "/liveness"
         - "/readiness"
         - "{{ .Values.health.path }}"
