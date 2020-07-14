@@ -10,6 +10,9 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
+    {{- if .Values.cleanUpIn }}
+    janitor/ttl: {{ .Values.cleanUpIn }}
+    {{- end }}
     reloader.stakater.com/auto: "true"
 spec:
   replicas: {{ .Values.scaling.minReplicas }}
@@ -24,6 +27,9 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
+        {{- if .Values.cleanUpIn }}
+        janitor/ttl: {{ .Values.cleanUpIn }}
+        {{- end}}
     spec:
       {{- if .Values.persistentVolume }}
       schedulerName: stork
@@ -82,6 +88,10 @@ spec:
                 secretKeyRef:
                     name: {{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}
                     key: password
+          {{- end }}
+          {{ if .Values.redis }}
+            - name: REDIS_HOST
+              value: redis-{{ include "service.fullname" . }}-master.{{ .Release.Namespace }}-database.svc.cluster.local
           {{- end }}
           envFrom:
           {{- if .Values.pullVaultSecrets }}

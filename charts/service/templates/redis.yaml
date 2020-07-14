@@ -1,0 +1,69 @@
+{{ if .Values.redis }}
+---
+apiVersion: k8s.amaiz.com/v1alpha1
+kind: Redis
+metadata:
+  name: {{ include "service.fullname" . }}
+  namespace: {{ .Release.Namespace }}-database
+spec:
+  # required field. Minimum value is 3
+  replicas: {{ .Values.redis.replicas }}
+  {{ if .Values.redis.config }}
+  config:
+    {{ range $key, $value := .Values.redis.config }}
+    {{ $key }}: {{ $value | quote }}
+    {{ end }}
+  {{ end }}
+  redis:
+    image: redis:5-alpine
+    initialDelaySeconds: 10
+    resources:
+      limits:
+        cpu: 100m
+        memory: 200Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - all
+      readOnlyRootFilesystem: true
+      runAsUser: 7777777
+      runAsGroup: 7777777
+      fsGroup: 7777777
+      runAsNonRoot: true
+  exporter:
+    image: oliver006/redis_exporter:v1.2.1
+    resources:
+      limits:
+        cpu: 50m
+        memory: 100Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - all
+      readOnlyRootFilesystem: true
+      runAsUser: 7777777
+      runAsGroup: 7777777
+      fsGroup: 7777777
+      runAsNonRoot: true
+  volumes:
+  - name: sys
+    hostPath:
+      path: /sys
+  initContainers:
+  - name: disable-thp
+    image: busybox
+    command: ["sh", "-c"]
+    args:
+    - |-
+      set -e
+      set -o pipefail
+      echo never > /rootfs/sys/kernel/mm/transparent_hugepage/enabled
+      grep -q -F [never] /sys/kernel/mm/transparent_hugepage/enabled
+    volumeMounts:
+    - name: sys
+      mountPath: /rootfs/sys
+      type: Directory
+
+{{ end }}

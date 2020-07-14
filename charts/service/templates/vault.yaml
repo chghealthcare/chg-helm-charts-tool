@@ -4,8 +4,11 @@ apiVersion: "koudingspawn.de/v1"
 kind: Vault
 metadata:
   name: {{ include "service.fullname" . }}
+  annotations:
+    {{- if .Values.cleanUpIn }}
+    janitor/ttl: {{ .Values.cleanUpIn }}
+    {{- end }}
 spec:
   path: "{{ include "service.environmentShort" . }}/{{ .Values.project }}"
   type: "KEYVALUEV2"
-
 {{ end }}
