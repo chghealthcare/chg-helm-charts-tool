@@ -1,0 +1,12 @@
+{{ if .Values.pullVaultSecrets }}
+{{- $environment := printf "%s" (include "service.environment" .) -}}
+apiVersion: "koudingspawn.de/v1"
+kind: Vault
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  path: "{{ include "service.environmentShort" . }}/{{ .Values.ui_name }}"
+  type: "KEYVALUEV2"
+
+{{ end }}
