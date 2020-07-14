@@ -11,10 +11,14 @@ kind: postgresql
 metadata:
   name: {{ $dbClusterName }}
   namespace: {{ $dbNamespace }}
+  annotations:
+    {{- if .Values.cleanUpIn }}
+    janitor/ttl: {{ .Values.cleanUpIn }}
+    {{- end }}
 spec:
   teamId: {{ quote $teamId }}
   volume:
-    size: {{ .Values.postgres.size }} 
+    size: {{ .Values.postgres.size }}
     storageClass: px-postgres-sc
   numberOfInstances: {{ .Values.postgres.numberOfInstances }}
   users:
@@ -27,8 +31,8 @@ spec:
   databases:
     {{ $dbName }}: {{ $dbOwner }}
   postgresql:
-    version: {{ quote .Values.postgres.version }} 
-  
+    version: {{ quote .Values.postgres.version }}
+
   nodeAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
     nodeSelectorTerms:
