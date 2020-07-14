@@ -20,14 +20,22 @@ fullnameOverride: ''
 # options [development, stage, production]
 environment: 'production'
 
-# Database Type. Default to no database. 
+# Database Type. Default to no database.
 #
 # options [neo4j, mysql, postgres]
 databasetype: ''
 
 # This is only needed if you want to implicitly override your ephemeral feature branch database
 # This does not affect your production database type right now.
-databaseimage: 
+databaseimage:
+
+# Leave this blank unless you need to create one or more init containers.
+# https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+# initContainers:
+# - name: myContainerName
+#   image: my-image:version
+#   command: ['array', 'of', 'command', 'args', 'to', 'run']
+initContainers:
 
 # We include the option to overide the environment variable for backwards
 # compatability, but please use the environment variable above.
@@ -44,6 +52,8 @@ service:
 # determine whether your service is up and running.
 health:
   path: '/health'
+  initialDelaySeconds: 20
+  periodSeconds: 20
 
 # [REQUIRED]
 # Each deployment gets its own gateway that maps through the virtual service
@@ -52,8 +62,47 @@ istiogateway:
   _default: 'dev.cs.aws.chgit.com'
   stage: 'dev.cs.aws.chgit.com'
   production: 'prod.cs.aws.chgit.com'
+  corsPolicy:
+    enabled: true
+    allowMethods:
+    - 'PATCH'
+    - 'GET'
+    - 'POST'
+    - 'DELETE'
+    - 'PUT'
+    allowCredentials: true
+    maxAge: "24h"
+    allowHeaders:
+    - '*'
+    allowOrigin:
+    - '*'
 
-# The default values here are: 
+istioAllowedPaths: []
+istioAllowedMethods: []
+
+# Example of how to specify kafka topics to be created
+# 'name' and 'envKey' are required, everything else has defaults
+#
+# kafkaTopics
+# - name: 'someTopicName'
+#   partitions: 3
+#   replicationFactor: 2 
+#   envKey: SOME_TOPIC_NAME
+# - name: 'someTopicNameDeadLetter'
+#   partitions: 3
+#   replicationFactor: 2 
+#   envKey: SOME_TOPIC_NAME_DEAD_LETTER
+
+# postgres:
+#  teamId: sa
+#  dbName: demodb
+#  owner: saadmin
+#  version: 11  # database version
+#  size: 1Gi   # database size 
+#  numberOfInstances: 2 # number of postgres instances 1 - master 2..replica
+
+
+# The default values here are:
 auth:
   _default:
     enabled: true
@@ -83,6 +132,10 @@ envs: []
 secretRefs: []
 # - global-one
 
+# pullVaultSecrets -- Will automatically place all key/value pairs in a vault secret
+# as environment variables for your service to use
+pullVaultSecrets: true
+
 secretKeyRefs: []
 # - name: YOUR_ENV_VAR
 #   secret: secret-store-name
@@ -102,7 +155,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: 'true'
   hosts:
-    - host: 
+    - host:
       paths: []
 
   tls: []
@@ -126,7 +179,7 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: 
+affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
@@ -137,10 +190,10 @@ affinity:
           - jenkins-workers
 
 persistentVolumeClaim: {}
-  # This should only be used if a claim does not already exist.  If there is a pre-existing 
+  # This should only be used if a claim does not already exist.  If there is a pre-existing
   # claim (e.g. an existing shared volume), you need only attach a persistentVolume (below)
   # and reference the name of the existing claim.
-  # enabled: false 
+  # enabled: false
   # size: 2Gi
   # name: px-test-shared
   # type: shared # Valid options: shared, secure, postgres
@@ -162,3 +215,23 @@ scaling:
 # clean up in our enabled environments IE: Feature Namespace. If you need
 # your service to stay up longer you can set this to your needs.
 cleanUpIn: 48h
+
+# For creating a Job to run with your service.
+# More information here: https://kubernetes.io/docs/concepts/workloads/controllers/job/
+#jobs:
+#- containerName: 'some-job'
+#  image: 'node:12'
+#  command: ['echo', 'foobar']
+#  annotations:
+#    "helm.sh/hook": pre-install,pre-upgrade
+#    "helm.sh/hook-delete-policy": hook-succeeded
+
+# For creating a PostgresSql DB Cluster
+# More information here: https://github.com/chghealthcare/chg-terraform-infrastructure/wiki/Database-as-a-Service
+#postgres:
+#  teamId: sre
+#  dbName: demodb
+#  owner: sreadmin
+#  size: 1Gi
+#  numberOfInstances: 1
+#  version: 11

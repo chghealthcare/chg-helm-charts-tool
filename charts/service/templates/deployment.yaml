@@ -1,11 +1,4 @@
-{{- $environment := printf "%s" (include "service.environment" .) -}}
-apiVersion: "koudingspawn.de/v1"
-kind: Vault
-metadata:
-  name: {{ include "service.fullname" . }}
-spec:
-  path: "{{ include "service.environmentShort" . }}/{{ .Values.project }}"
-  type: "KEYVALUEV2"
+{{ $root := . }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,7 +28,14 @@ spec:
         janitor/ttl: {{ .Values.cleanUpIn }}
     spec:
       {{- if .Values.persistentVolume }}
-      schedulerName: stork 
+      schedulerName: stork
+      {{- end }}
+      {{- if .Values.initContainer }}
+      initContainers:
+      - name: {{ .Values.initContainer.name }}
+        image: {{ .Values.initContainer.image }}
+        imagePullPolicy: {{ .Values.initContainer.imagePullPolicy }}
+        command: {{ .Values.initContainer.command }}
       {{- end }}
       containers:
         {{- include "service.database"  . | indent 8 }}
@@ -49,6 +49,10 @@ spec:
             - name: {{ .name | quote }}
               value: {{ .value | quote }}
           {{- end }}
+          {{- range .Values.kafkaTopics }}
+            - name: {{ .envKey | quote }}
+              value: {{ if $root.Values.feature }}{{ printf "%s-%s" $root.Values.feature .name }}{{ else }}{{ .name }}{{ end }}
+          {{- end }}
           {{- range .Values.configMapKeys }}
             - name: {{ .name | quote}}
               valueFrom:
@@ -57,15 +61,35 @@ spec:
                     key: {{ .key | quote }}
           {{- end }}
           {{- range .Values.secretKeys }}
-            - name: {{ .name | quote}}
+            - name: {{ .name | quote }}
               valueFrom:
                 secretKeyRef:
                     name: {{ .secret | quote }}
                     key: {{ .key | quote }}
           {{- end }}
+          {{ if .Values.postgres }}
+            - name: POSTGRES_URL
+              value: {{ printf "%s-%s.%s-database" .Values.postgres.teamId .Values.postgres.dbName .Release.Namespace }}
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DBNAME
+              value:  {{ quote .Values.postgres.dbName }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                    name: {{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}
+                    key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                    name: {{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}
+                    key: password
+          {{- end }}
           envFrom:
+          {{- if .Values.pullVaultSecrets }}
             - secretRef:
                 name: {{ include "service.fullname" . | quote }}
+          {{- end }}
           {{- range .Values.secretRefs }}
             - secretRef:
                 name: {{ . | quote }}
@@ -82,14 +106,14 @@ spec:
             httpGet:
               path: {{ .Values.health.path | quote }}
               port: {{ .Values.service.target }}
-            initialDelaySeconds: 20
-            periodSeconds: 20
+            initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
+            periodSeconds: {{ .Values.health.periodSeconds }}
           readinessProbe:
             httpGet:
               path: {{ .Values.health.path | quote }}
               port: {{ .Values.service.target }}
-            initialDelaySeconds: 20
-            periodSeconds: 20
+            initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
+            periodSeconds: {{ .Values.health.periodSeconds }}
           {{- if .Values.persistentVolume }}
           volumeMounts:
             - mountPath: {{ .Values.persistentVolume.mountPath }}

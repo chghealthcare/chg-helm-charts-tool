@@ -19,16 +19,16 @@ helm repo add chg https://chghealthcare.github.io/chg-helm-charts-tool/
 ```
 helm  upgrade -f ./values-${env}.yaml --install --force --wait \
 --set image.tag='commit-hash' ${?FEATURE-PROJECT} \
---namespace=stage chg/service 
+--namespace=stage chg/service
 ```
 ## Test Deployment Template locally
 ```
 helm  template -f ./values-${env}.yaml --dry-run \
 --set image.tag='commit-hash' ${?FEATURE-PROJECT} \
---namespace=stage chg/service 
+--namespace=stage chg/service
 ```
-## Requirements 
-Requirements for a helm deployment include the following: 
+## Requirements
+Requirements for a helm deployment include the following:
 - Values files must include a `project` value that contains the name of your repo/project `chg-example-service`.
 - There must be a valid secret in Vault. The secret must be named to match the `project` value in your values file. EX: `dev/chg-example-service`. The current vault url is `https://vault.shared.aws.chgit.com/ui/vault/secrets`
 
@@ -73,14 +73,14 @@ fullnameOverride: ''
 # options [development, stage, production]
 environment: 'production'
 
-# Database Type. Default to no database. 
+# Database Type. Default to no database.
 #
 # options [neo4j, mysql, postgres]
 databasetype: ''
 
 # This is only needed if you want to implicitly override your ephemeral feature branch database
 # This does not affect your production database type right now.
-databaseimage: 
+databaseimage:
 
 # We include the option to overide the environment variable for backwards
 # compatability, but please use the environment variable above.
@@ -106,7 +106,7 @@ istiogateway:
   stage: 'dev.cs.aws.chgit.com'
   production: 'prod.cs.aws.chgit.com'
 
-# The default values here are: 
+# The default values here are:
 auth:
   _default:
     enabled: true
@@ -152,7 +152,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: 'true'
   hosts:
-    - host: 
+    - host:
       paths: []
 
   tls: []
@@ -194,5 +194,5 @@ cleanUpIn: 48h
 
 # Contribute
 If you would like to contribute, create a PR at [the project page on GitHub](https://github.com/chghealthcare/chg-helm-charts-tool).
-**NOTE:** Before a branch gets merged, you have to increment the version number in the chart you want to release.
+**NOTE:** Before a branch gets merged, you have to increment the version number in the `Chart.yaml` file for the chart you want to release.
 GitHub Actions will build any time 'master' branch is pushed, and a will fail unless chart has a new version.

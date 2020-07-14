@@ -1,0 +1,2 @@
+Deployed a database migrator: {{ .Release.Name }}
+Into namespace: {{ .Release.namespace }}
