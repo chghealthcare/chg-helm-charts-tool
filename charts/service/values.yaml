@@ -206,12 +206,15 @@ persistentVolume: {}
   # claimName: px-text-shared
   # volumeName: data
   # mountPath: /data
-
 scaling:
   minReplicas: 2
   maxReplicas: 4
   averageCpuUtilization: 50
 
+# This value is what sets the annotation on deployed resources for auto 
+# clean up in our enabled environments IE: Feature Namespace. If you need
+# your service to stay up longer you can set this to your needs.
+cleanUpIn: 48h
 
 # For creating a Job to run with your service.
 # More information here: https://kubernetes.io/docs/concepts/workloads/controllers/job/

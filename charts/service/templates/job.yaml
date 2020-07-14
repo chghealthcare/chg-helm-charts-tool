@@ -10,6 +10,9 @@ metadata:
     {{ range $key, $val := .annotations }}
     {{ $key }}: {{ $val }}
     {{ end }}
+    {{- if .Values.cleanUpIn }}
+    janitor/ttl: {{ .Values.cleanUpIn }}
+    {{- end }}
   {{ end }}
 spec:
   template:
