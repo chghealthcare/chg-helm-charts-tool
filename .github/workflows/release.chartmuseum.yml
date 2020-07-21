@@ -13,9 +13,9 @@ jobs:
     strategy:
       matrix:
         charts:
-        - 'database-migrator'
-        - 'service'
-        - 'worker'
+          - 'database-migrator'
+          - 'service'
+          - 'worker'
 
     steps:
       - name: Checkout
