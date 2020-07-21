@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - 'feature/add-chart-museum-action'
 
 jobs:
   release:
