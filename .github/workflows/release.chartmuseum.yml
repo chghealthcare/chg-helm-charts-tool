@@ -8,7 +8,7 @@ on:
 
 jobs:
   release:
-    runs-on: 'chghealthcare'
+    runs-on: 'self-hosted'
 
     strategy:
       matrix:
