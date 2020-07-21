@@ -28,5 +28,9 @@ jobs:
           CHART_FOLDER: 'charts'
         run: |
           for CHART_NAME in $CHART_FOLDER/*/; do
-            helm push $CHART_NAME chg
+            {
+              helm push $CHART_NAME chg
+            } || {
+              echo "Unable to push $CHART_NAME"
+            }
           done
