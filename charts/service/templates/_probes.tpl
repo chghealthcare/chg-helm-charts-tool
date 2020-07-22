@@ -2,7 +2,7 @@
 {{- define "service.probes" }}
 livenessProbe:
   httpGet:
-    {{- if .Values.health.path }}
+  {{- if .Values.health.path }}
     path: {{ .Values.health.path | quote }}
     port: {{ .Values.service.target }}
   initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
@@ -15,7 +15,7 @@ livenessProbe:
   {{- end }}
 readinessProbe:
   httpGet:
-    {{- if .Values.health.path }}
+  {{- if .Values.health.path }}
     path: {{ .Values.health.path | quote }}
     port: {{ .Values.service.target }}
   initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
