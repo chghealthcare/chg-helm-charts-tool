@@ -1,0 +1,220 @@
+---
+# Source: service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: 
+  labels:
+    app.kubernetes.io/name: service
+    helm.sh/chart: service-1.3.17
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    janitor/ttl: 48h
+spec:
+  ports:
+    - port: 8232
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: service
+    app.kubernetes.io/instance: RELEASE-NAME
+---
+# Source: service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 
+  labels:
+    app.kubernetes.io/name: service
+    helm.sh/chart: service-1.3.17
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    janitor/ttl: 48h
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: service
+      app.kubernetes.io/instance: RELEASE-NAME
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: service
+        app.kubernetes.io/instance: RELEASE-NAME
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+        janitor/ttl: 48h
+    spec:
+      containers:        
+        - name: service
+          image: ":stable"
+          imagePullPolicy: IfNotPresent
+          resources:
+            {}
+          env:
+          envFrom:
+            - secretRef:
+                name: ""
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP          
+          livenessProbe:
+            httpGet:
+              path: "/health"
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: "/health"
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10      
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: worker-type
+                operator: NotIn
+                values:
+                - jenkins-workers
+---
+# Source: service/templates/horizontal-pod-autoscaler.yaml
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: 
+  annotations:
+    janitor/ttl: 48h
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: 
+  minReplicas: 2
+  maxReplicas: 4
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+---
+# Source: service/templates/istio-policy.yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: -auth-policy
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/name: service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7/*"]
+    - source:
+        namespaces: ["default"]
+  - to:
+    - operation:
+        methods:
+        - "GET"
+        
+        paths:
+        - "/liveness"
+        - "/readiness"
+        - "/health"
+        - "/"
+        - "/docs"
+        - "/docs/*"
+        - "/swagger-ui/*"
+---
+# Source: service/templates/istio-policy.yaml
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: -rqauth
+  annotations:
+    janitor/ttl: 48h
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/name: service
+  jwtRules:
+  - issuer: https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7
+    jwksUri: https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7/v1/keys
+    forwardOriginalToken: true
+---
+# Source: service/templates/vault.yaml
+apiVersion: "koudingspawn.de/v1"
+kind: Vault
+metadata:
+  name: 
+  annotations:
+    janitor/ttl: 48h
+spec:
+  path: "default/"
+  type: "KEYVALUEV2"
+---
+# Source: service/templates/istio-virtual-service.yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: RELEASE-NAME
+  annotations:
+    janitor/ttl: 48h
+spec:
+  hosts:
+  - "RELEASE-NAME.default.platform.aws.chgit.com"
+  gateways:
+  - "default-gateway"
+  http:
+  - route:
+    - destination:
+        host: 
+        port:
+          number: 8232
+
+    corsPolicy:
+      allowOrigin: 
+      - "*"
+      allowMethods: 
+      - "PATCH"
+      - "GET"
+      - "POST"
+      - "DELETE"
+      - "PUT"
+      allowCredentials: true
+      allowHeaders: 
+      - "*"
+      maxAge: 24h
+---
+# Source: service/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "-test-connection"
+  labels:
+    app.kubernetes.io/name: service
+    helm.sh/chart: service-1.3.17
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  [':8232/health']
+  restartPolicy: Never
