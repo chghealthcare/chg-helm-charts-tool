@@ -1,14 +1,14 @@
 {{ $root := . }}
-{{ range .Values.jobs }}
-{{ $hookAnnotations := index .annotations "helm.sh/hook" }}
+{{ range $index, $job := $root.Values.jobs }}
+{{ $hookAnnotations := index $job.annotations "helm.sh/hook" }}
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "service.fullname" $root }}-job
-  {{ if .annotations }}
+  name: {{ include "service.fullname" $root }}-job-{{ $index }}
+  {{ if $job.annotations }}
   annotations:
-    {{ range $key, $val := .annotations }}
+    {{ range $key, $val := $job.annotations }}
     {{ $key }}: {{ $val }}
     {{ end }}
     {{- if $root.Values.cleanUpIn }}
@@ -22,9 +22,9 @@ spec:
         "sidecar.istio.io/inject": "false"
     spec:
       containers:
-      - name: {{ .containerName }}
-        image: {{ .image }}
-        command: {{ range .command }}
+      - name: {{ $job.containerName }}
+        image: {{ $job.image }}
+        command: {{ range $job.command }}
         - {{ . | quote }}{{ end }}
         env:
           {{- range $root.Values.envs }}
