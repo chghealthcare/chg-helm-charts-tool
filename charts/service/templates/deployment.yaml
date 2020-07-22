@@ -71,7 +71,7 @@ spec:
                     name: {{ .secret | quote }}
                     key: {{ .key | quote }}
           {{- end }}
-          {{ if .Values.postgres }}
+          {{- if .Values.postgres }}
             - name: POSTGRES_URL
               value: {{ printf "%s-%s.%s-database" .Values.postgres.teamId .Values.postgres.dbName .Release.Namespace }}
             - name: POSTGRES_PORT
@@ -89,7 +89,7 @@ spec:
                     name: {{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}
                     key: password
           {{- end }}
-          {{ if .Values.redis }}
+          {{- if .Values.redis }}
             - name: REDIS_HOST
               value: redis-{{ include "service.fullname" . }}-master.{{ .Release.Namespace }}-database.svc.cluster.local
           {{- end }}
@@ -110,18 +110,7 @@ spec:
             - name: http
               containerPort: {{ .Values.service.target }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: {{ .Values.health.path | quote }}
-              port: {{ .Values.service.target }}
-            initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
-            periodSeconds: {{ .Values.health.periodSeconds }}
-          readinessProbe:
-            httpGet:
-              path: {{ .Values.health.path | quote }}
-              port: {{ .Values.service.target }}
-            initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
-            periodSeconds: {{ .Values.health.periodSeconds }}
+           {{- include "service.probes" . | indent 10}}
           {{- if .Values.persistentVolume }}
           volumeMounts:
             - mountPath: {{ .Values.persistentVolume.mountPath }}
