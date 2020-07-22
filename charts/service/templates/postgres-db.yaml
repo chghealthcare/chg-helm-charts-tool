@@ -8,7 +8,7 @@
 {{ $dbOwnerSecret := printf "%s.%s" $dbOwner $dbClusterName }}
 {{ if $root.Values.feature }}
 {{ $dbClusterName = printf "%s-%s-%s" $root.Values.feature $teamId $dbName }}
-{{ $dbOwnerSecret = printf "%s-%s.%s-%s" $root.Values.feature $dbOwner $teamId $dbName }} 
+{{ $dbOwnerSecret = printf "%s.%s" $dbOwner $dbClusterName }}
 {{ end }}
 {{ $dbNamespace := printf "%s-database" $releaseNamespace }}
 ---
