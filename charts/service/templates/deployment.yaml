@@ -112,16 +112,16 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: {{ .Values.health.path | quote }}
+              path: {{ .Values.health.liveness.path | quote }}
               port: {{ .Values.service.target }}
-            initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
-            periodSeconds: {{ .Values.health.periodSeconds }}
+            initialDelaySeconds: {{ .Values.health.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.health.liveness.periodSeconds }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.health.path | quote }}
+              path: {{ .Values.health.readiness.path | quote }}
               port: {{ .Values.service.target }}
-            initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
-            periodSeconds: {{ .Values.health.periodSeconds }}
+            initialDelaySeconds: {{ .Values.health.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.health.readiness.periodSeconds }}
           {{- if .Values.persistentVolume }}
           volumeMounts:
             - mountPath: {{ .Values.persistentVolume.mountPath }}
