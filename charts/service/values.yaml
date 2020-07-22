@@ -57,7 +57,15 @@ service:
 health:
   path: '/health'
   initialDelaySeconds: 20
-  periodSeconds: 10
+  periodSeconds: 20
+  liveness:
+    path: '/liveness'
+    initialDelaySeconds: 20
+    periodSeconds: 20
+  readiness:
+    path: '/readiness'
+    initialDelaySeconds: 30
+    periodSeconds: 20
 
 
 # [REQUIRED]
