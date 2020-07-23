@@ -1,11 +1,16 @@
 {{ if .Values.postgres }}
+{{ $root := . }}
 {{ $teamId := .Values.postgres.teamId }}
 {{ $dbName := .Values.postgres.dbName }}
 {{ $dbOwner := .Values.postgres.owner }}
 {{ $releaseNamespace := .Release.Namespace }}
 {{ $dbClusterName := printf "%s-%s" $teamId $dbName }}
+{{ if $root.Values.feature }}
+{{ $dbClusterName = printf "%s-%s-%s" $root.Values.feature $teamId $dbName }}
+{{ end }}
 {{ $dbOwnerSecret := printf "%s.%s" $dbOwner $dbClusterName }}
 {{ $dbNamespace := printf "%s-database" $releaseNamespace }}
+---
 apiVersion: "acid.zalan.do/v1"
 kind: postgresql
 metadata:
