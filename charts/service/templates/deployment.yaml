@@ -81,12 +81,12 @@ spec:
             - name: POSTGRES_USERNAME
               valueFrom:
                 secretKeyRef:
-                    name: {{ if $root.Values.feature }}{{ printf "%s-%s.%s-%s" $root.Values.feature .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}{{ else }}{{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}{{ end }}
+                    name: {{ if $root.Values.feature }}{{ printf "%s.%s-%s-%s" .Values.postgres.owner $root.Values.feature .Values.postgres.teamId .Values.postgres.dbName }}{{ else }}{{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}{{ end }}
                     key: username
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                    name: {{ if $root.Values.feature }} {{ printf "%s-%s.%s-%s" $root.Values.feature .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}{{ else }}{{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}{{ end }}
+                    name: {{ if $root.Values.feature }} {{ printf "%s.%s-%s-%s" .Values.postgres.owner $root.Values.feature .Values.postgres.teamId .Values.postgres.dbName }}{{ else }}{{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}{{ end }}
                     key: password
           {{- end }}
           {{ if .Values.redis }}
