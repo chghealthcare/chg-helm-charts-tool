@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "helper.fullname" . }}
+  labels:
+{{- include "helper.labels" . | indent 4 }}
+{{- if .Values.autoreload }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+{{- end }}
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy:
+{{ toYaml .Values.strategy | indent 4 }}
+  selector:
+    matchLabels:
+{{- include "helper.labels" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+{{- include "helper.labels" . | indent 8 }}
+    spec:
+      containers:
+      - name: {{ template "helper.fullname" . }}
+        image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "helper.fullname" . }}
+        ports:
+        - name: https
+          containerPort: 8443
+        volumeMounts:
+        - name: tls
+          mountPath: /run/secrets/tls
+          readOnly: true
+      volumes:
+      - name: tls
+        secret:
+          secretName: {{ template "helper.fullname" . }}-tls
