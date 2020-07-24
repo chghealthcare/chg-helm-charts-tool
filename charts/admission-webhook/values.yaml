@@ -1,0 +1,28 @@
+---
+imagePullPolicy: Always
+image:
+  name: liangrog/admission-webhook-server
+  tag: latest
+
+replicas: 1
+
+strategy:
+  type: RollingUpdate
+
+autoreload: true
+
+service:
+  name: admission-webhook
+  type: "ClusterIP"
+  annotations: {}
+
+# Confiruation for podnodesselector. The namespace and labels are set here following the format:
+#   namespace: key=label,key=label; namespace2: key=label
+# Note: Multiple namespaces seperate by ;
+#
+# Examples:
+#   devel: node-role.kubernetes.io/development=true, beta.kubernetes.io/instance-type=t3.large
+podNodesSelectorConfig: "feature: eks.amazonaws.com/nodegroup=common-svc-development-0lZO-general-fair-liger"
+
+basePathOverride: "/mutate"
+podNodesSelectorPathOverride: "pod-nodes-selector"
