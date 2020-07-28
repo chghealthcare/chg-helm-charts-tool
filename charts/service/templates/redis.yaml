@@ -5,6 +5,8 @@ kind: Redis
 metadata:
   name: {{ include "service.fullname" . }}
   namespace: {{ .Release.Namespace }}-database
+  labels:
+{{ include "service.commonLabels" . | indent 4 }}
 spec:
   # required field. Minimum value is 3
   replicas: {{ .Values.redis.replicas }}

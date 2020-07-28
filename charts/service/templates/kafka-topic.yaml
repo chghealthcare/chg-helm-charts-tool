@@ -6,6 +6,8 @@ kind: KafkaTopic
 metadata:
   name: {{ if $root.Values.feature }}{{ printf "%s-%s" $root.Values.feature $kafkaTopic.name }}{{ else }}{{ $kafkaTopic.name }}{{ end }}-{{ $index }}
   namespace: kafka
+  labels:
+{{ include "service.commonLabels" . | indent 4 }}
   annotations:
     {{- if $root.Values.cleanUpIn }}
     janitor/ttl: {{ $root.Values.cleanUpIn }}

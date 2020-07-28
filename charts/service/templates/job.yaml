@@ -7,6 +7,8 @@ kind: Job
 metadata:
   name: {{ include "service.fullname" $root }}-job-{{ $index }}
   {{ if $job.annotations }}
+  labels:
+{{ include "service.commonLabels" . | indent 4 }}
   annotations:
     {{ range $key, $val := $job.annotations }}
     {{ $key }}: {{ $val }}
