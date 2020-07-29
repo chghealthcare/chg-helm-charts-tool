@@ -50,7 +50,6 @@ service:
 
 # The health settings are used to determine whether your service is up and running.
 health:
-  path: '/health'
   liveness:
     path: '/liveness'
     initialDelaySeconds: 20
