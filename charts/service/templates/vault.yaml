@@ -4,6 +4,8 @@ apiVersion: "koudingspawn.de/v1"
 kind: Vault
 metadata:
   name: {{ include "service.fullname" . }}
+  labels:
+{{ include "service.commonLabels" . | indent 4 }}
   annotations:
     {{- if .Values.cleanUpIn }}
     janitor/ttl: {{ .Values.cleanUpIn }}

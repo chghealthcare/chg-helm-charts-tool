@@ -2,6 +2,8 @@ apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "service.fullname" . }}
+  labels:
+{{ include "service.commonLabels" . | indent 4 }}
   annotations:
     {{- if .Values.cleanUpIn }}
     janitor/ttl: {{ .Values.cleanUpIn }}
