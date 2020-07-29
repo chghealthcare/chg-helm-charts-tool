@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ .Values.persistentVolumeClaim.name }}
+  labels:
+{{ include "service.commonLabels" . | indent 4 }}
   annotations:
     volume.beta.kubernetes.io/storage-class: px-{{ .Values.persistentVolumeClaim.type }}-sc
     {{- if .Values.cleanUpIn }}

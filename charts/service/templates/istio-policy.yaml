@@ -5,6 +5,8 @@ apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
   name: {{ include "service.fullname" . }}-rqauth
+  labels:
+{{ include "service.commonLabels" . | indent 4 }}
   annotations:
     {{- if .Values.cleanUpIn }}
     janitor/ttl: {{ .Values.cleanUpIn }}

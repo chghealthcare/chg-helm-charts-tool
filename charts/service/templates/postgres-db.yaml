@@ -16,6 +16,8 @@ kind: postgresql
 metadata:
   name: {{ $dbClusterName }}
   namespace: {{ $dbNamespace }}
+  labels:
+{{ include "service.commonLabels" . | indent 4 }}
   annotations:
     {{- if .Values.cleanUpIn }}
     janitor/ttl: {{ .Values.cleanUpIn }}
