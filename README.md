@@ -93,10 +93,16 @@ service:
   port: 8232
   target: 8080
 
-# The health variables are currently used in the test-connection yaml to help
-# determine whether your service is up and running.
+# The health settings are used to determine whether your service is up and running.
 health:
-  path: '/health'
+  liveness:
+    path: '/liveness'
+    initialDelaySeconds: 20
+    periodSeconds: 20
+  readiness:
+    path: '/readiness'
+    initialDelaySeconds: 30
+    periodSeconds: 20
 
 # [REQUIRED]
 # Each deployment gets its own gateway that maps through the virtual service
