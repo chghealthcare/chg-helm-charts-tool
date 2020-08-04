@@ -47,7 +47,8 @@ spec:
         paths:
         - "/liveness"
         - "/readiness"
-        - "{{ .Values.health.path }}"
+        - "{{ .Values.health.liveness.path }}"
+        - "{{ .Values.health.readiness.path }}"
         - "/"
         - "/docs"
         - "/docs/*"
