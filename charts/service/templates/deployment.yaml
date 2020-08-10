@@ -70,7 +70,7 @@ spec:
           {{- end }}
           {{- if .Values.postgres }}
             - name: POSTGRES_URL
-              value: {{ if $root.Values.feature }}{{ printf "%s-%s-%s.%s-database" $root.Values.feature .Values.postgres.teamId .Values.postgres.dbName .Release.Namespace }}{{ else }}{{ printf "%s-%s.%s-database" .Values.postgres.teamId .Values.postgres.dbName .Release.Namespace }}{{ end }}
+              value: {{ if $root.Values.feature }}{{ printf "%s-%s-%s.%s-database" .Values.postgres.teamId $root.Values.feature .Values.postgres.dbName .Release.Namespace }}{{ else }}{{ printf "%s-%s.%s-database" .Values.postgres.teamId .Values.postgres.dbName .Release.Namespace }}{{ end }}
             - name: POSTGRES_PORT
               value: "5432"
             - name: POSTGRES_DBNAME
