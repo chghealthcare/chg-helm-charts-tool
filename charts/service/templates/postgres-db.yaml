@@ -6,7 +6,7 @@
 {{ $releaseNamespace := .Release.Namespace }}
 {{ $dbClusterName := printf "%s-%s" $teamId $dbName }}
 {{ if $root.Values.feature }}
-{{ $dbClusterName = printf "%s-%s-%s" $root.Values.feature $teamId $dbName }}
+{{ $dbClusterName = printf "%s-%s-%s" $teamId $root.Values.feature $dbName }}
 {{ end }}
 {{ $dbOwnerSecret := printf "%s.%s" $dbOwner $dbClusterName }}
 {{ $dbNamespace := printf "%s-database" $releaseNamespace }}
