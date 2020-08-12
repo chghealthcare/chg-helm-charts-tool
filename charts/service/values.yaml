@@ -54,10 +54,12 @@ health:
     path: '/liveness'
     initialDelaySeconds: 20
     periodSeconds: 20
+    failureThreshold: 3
   readiness:
     path: '/readiness'
     initialDelaySeconds: 30
     periodSeconds: 20
+    failureThreshold: 3
 
 
 # [REQUIRED]
