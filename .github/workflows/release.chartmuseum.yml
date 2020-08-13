@@ -1,0 +1,35 @@
+name: Release Charts
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Helm
+        uses: azure/setup-helm@v1
+      - name: Setup Helm Push Plugin
+        run: helm plugin install https://github.com/chartmuseum/helm-push.git
+      - name: Add Chartmuseum repo
+        env:
+          CHART_URL: https://chartmuseum.shared.aws.chgit.com
+        run: helm repo add chg $CHART_URL
+      - name: Push each chart
+        env:
+          HELM_REPO_USERNAME: '${{ secrets.CHARTMUSEUM_USERNAME }}'
+          HELM_REPO_PASSWORD: '${{ secrets.CHARTMUSEUM_PASSWORD }}'
+          CHART_FOLDER: 'charts'
+        run: |
+          for CHART_NAME in $CHART_FOLDER/*/; do
+            {
+              helm push $CHART_NAME chg
+            } || {
+              echo "Unable to push $CHART_NAME"
+            }
+          done
