@@ -18,7 +18,7 @@ metadata:
     {{- end }}
   {{ end }}
 spec:
-  backoffLimit: {{ if $job.backoffLimit }}{{ $job.backoffLimit }}{{ else }}{{ 4 }}{{ end }}
+  backoffLimit: {{ $job.backoffLimit }}
   template:
     metadata:
       annotations:
