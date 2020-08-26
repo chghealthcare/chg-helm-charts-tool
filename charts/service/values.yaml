@@ -225,16 +225,18 @@ cleanUpIn: 48h
 
 # For creating a Job to run with your service.
 # More information here: https://kubernetes.io/docs/concepts/workloads/controllers/job/
-#jobs:
-#- containerName: 'some-job'
-#  image: 'node:12'
-#  command: ['echo', 'foobar']
-#  annotations:
-#    "helm.sh/hook": pre-install,pre-upgrade
-#    "helm.sh/hook-delete-policy": hook-succeeded
-#  envs:
-#  - name: NODE_ENV
-#    value: development
+# jobs:
+#   - containerName: 'some-job'
+#     # number of retries. Default: 4
+#     backoffLimit: 4
+#     image: 'node:12'
+#     command: ['echo', 'foobar']
+#     annotations:
+#       "helm.sh/hook": pre-install,pre-upgrade
+#       "helm.sh/hook-delete-policy": hook-succeeded
+#     envs:
+#     - name: NODE_ENV
+#       value: development
 
 
 # Spin up a redis cluster for your service to talk to, an environment variable REDIS_HOST will be set for your service to connect to the cluster with
