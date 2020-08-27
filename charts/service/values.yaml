@@ -227,7 +227,8 @@ cleanUpIn: 48h
 # More information here: https://kubernetes.io/docs/concepts/workloads/controllers/job/
 # jobs:
 #   - containerName: 'some-job'
-#     # number of retries. Default: 6
+#     # number of retries. Default: 4
+#     # if you want a backoffLimit of 0, it must be quoted.
 #     backoffLimit: 4
 #     image: 'node:12'
 #     command: ['echo', 'foobar']
