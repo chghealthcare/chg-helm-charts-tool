@@ -18,6 +18,7 @@ metadata:
     {{- end }}
   {{ end }}
 spec:
+  backoffLimit: {{ $job.backoffLimit | default 4 }}
   template:
     metadata:
       annotations:
@@ -69,6 +70,5 @@ spec:
                 name: {{ . | quote }}
           {{- end }}
       restartPolicy: Never
-  backoffLimit: 4
 
 {{ end }}
