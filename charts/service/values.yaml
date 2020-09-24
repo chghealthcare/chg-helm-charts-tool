@@ -144,10 +144,6 @@ authGlobal:
     issuer: 'https://chghealthcare.okta.com/oauth2/default'
     jwks: 'https://chghealthcare.okta.com/oauth2/default/v1/keys'
 
-public:
-  - pub
-  - public
-
 envs: []
 # - name: ENVIRONMENT
 #   value: production
