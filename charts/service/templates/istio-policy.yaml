@@ -1,5 +1,6 @@
 {{- $auth := pluck .Values.environment .Values.auth | first | default .Values.auth._default -}}
-{{ if eq $auth.enabled true -}}
+{{- $authGlobal := pluck .Values.environment .Values.authGlobal | first | default .Values.authGlobal._default -}}
+{{ if or (eq $auth.enabled true) (eq .Values.authEnabled true) -}}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -20,6 +21,9 @@ spec:
   - issuer: {{ $auth.issuer }}
     jwksUri: {{ $auth.jwks }}
     forwardOriginalToken: {{ $auth.forwardOriginalToken }}
+  - issuer: {{$authGlobal.issuer}}
+    jwksUri: {{ $authGlobal.jwks }}
+    forwardOriginalToken: true
 
 ---
 apiVersion: security.istio.io/v1beta1
