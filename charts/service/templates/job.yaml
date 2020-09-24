@@ -62,12 +62,12 @@ spec:
               name: {{ include "service.fullname" $root | quote }}
           {{- end }}{{- end }}{{- end }}
           {{- range $root.Values.secretRefs }}
-            - secretRef:
-                name: {{ . | quote }}
+          - secretRef:
+              name: {{ . | quote }}
           {{- end }}
           {{- range $root.Values.configMaps }}
-            - configMapRef:
-                name: {{ . | quote }}
+          - configMapRef:
+              name: {{ . | quote }}
           {{- end }}
       restartPolicy: Never
 
