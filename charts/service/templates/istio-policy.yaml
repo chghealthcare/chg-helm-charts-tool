@@ -39,7 +39,7 @@ spec:
   rules:
   - from:
     - source:
-        requestPrincipals: ["{{ $auth.issuer }}/*"]
+        requestPrincipals: ["{{ $auth.issuer }}/*","{{ $authGlobal.issuer }}/*"]
     - source:
         namespaces: ["{{ .Release.Namespace }}"]
   - to:
