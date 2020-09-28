@@ -43,13 +43,13 @@ spec:
     version: {{ quote .Values.postgres.version }}
 
   nodeAffinity:
-  requiredDuringSchedulingIgnoredDuringExecution:
-    nodeSelectorTerms:
-      - matchExpressions:
-          - key: px/enabled
-            operator: NotIn
-            values:
-              - "false"
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: px/enabled
+              operator: NotIn
+              values:
+                - "false"
 
 
 # Replicated Secret from the {Database Namespace}/{dbOwner Secret}
