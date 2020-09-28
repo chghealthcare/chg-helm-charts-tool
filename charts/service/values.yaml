@@ -18,7 +18,7 @@ fullnameOverride: ''
 # [REQUIRED]
 # This is a required field
 # options [development, stage, production]
-environment: 'production'
+environment: 'development'
 
 # Database Type. Default to no database.
 #
@@ -109,7 +109,9 @@ istioAllowedMethods: []
 #  numberOfInstances: 2 # number of postgres instances 1 - master 2..replica
 
 
-# The default values here are:
+
+# The default values here are: 
+authEnabled: false
 auth:
   _default:
     enabled: true
@@ -127,6 +129,20 @@ auth:
     jwks: 'https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7/v1/keys'
     forwardOriginalToken: true
 
+# The authGlobal values are more constant than regular authorizors. Please overide 
+# the other values first before considering changing the globals. Ultimate goal
+# is to remove the first set of values from charts all together. and utalize the
+# authEnabled flag and the global authorizors.
+authGlobal:
+  _default:
+    issuer: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7'
+    jwks: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys'
+  stage:
+    issuer: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7'
+    jwks: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys'
+  production:
+    issuer: 'https://chghealthcare.okta.com/oauth2/default'
+    jwks: 'https://chghealthcare.okta.com/oauth2/default/v1/keys'
 
 envs: []
 # - name: ENVIRONMENT
