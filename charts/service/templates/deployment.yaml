@@ -69,20 +69,20 @@ spec:
                     key: {{ .key | quote }}
           {{- end }}
           {{- if .Values.postgres }}
-            - name: POSTGRES_URL
+            - name: {{ if .Values.postgres.envUrlName }}{{ printf "%s" .Values.postgres.envUrlName }}{{ else }}{{ printf "POSTGRES_URL" }}{{ end }}
               value: {{ if $root.Values.feature }}{{ printf "%s-%s-%s.%s-database" .Values.postgres.teamId $root.Values.feature .Values.postgres.dbName .Release.Namespace }}{{ else }}{{ printf "%s-%s.%s-database" .Values.postgres.teamId .Values.postgres.dbName .Release.Namespace }}{{ end }}
-            - name: POSTGRES_REPL_URL
+            - name: {{ if .Values.postgres.envReplUrl }}{{ printf "%s" .Values.postgres.envReplUrl }}{{ else }}{{ printf "POSTGRES_REPL_URL" }}{{ end }}
               value: {{ if $root.Values.feature }}{{ printf "%s-%s-%s-repl.%s-database" .Values.postgres.teamId $root.Values.feature .Values.postgres.dbName .Release.Namespace }}{{ else }}{{ printf "%s-%s-repl.%s-database" .Values.postgres.teamId .Values.postgres.dbName .Release.Namespace }}{{ end }}
-            - name: POSTGRES_PORT
+            - name: {{ if .Values.postgres.envPortName }}{{ printf "%s" .Values.postgres.envPortName }}{{ else }}{{ printf "POSTGRES_PORT" }}{{ end }}
               value: "5432"
-            - name: POSTGRES_DBNAME
+            - name: {{ if .Values.postgres.envDbName }}{{ printf "%s" .Values.postgres.envDbName }}{{ else }}{{ printf "POSTGRES_DBNAME" }}{{ end }}
               value:  {{ quote .Values.postgres.dbName }}
-            - name: POSTGRES_USERNAME
+            - name: {{ if .Values.postgres.envUserName }}{{ printf "%s" .Values.postgres.envUserName }}{{ else }}{{ printf "POSTGRES_USERNAME" }}{{ end }}
               valueFrom:
                 secretKeyRef:
                     name: {{ if $root.Values.feature }}{{ printf "%s.%s-%s-%s" .Values.postgres.owner .Values.postgres.teamId $root.Values.feature .Values.postgres.dbName }}{{ else }}{{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}{{ end }}
                     key: username
-            - name: POSTGRES_PASSWORD
+            - name: {{ if .Values.postgres.envPasswordName }}{{ printf "%s" .Values.postgres.envPasswordName }}{{ else }}{{ printf "POSTGRES_PASSWORD" }}{{ end }}
               valueFrom:
                 secretKeyRef:
                     name: {{ if $root.Values.feature }} {{ printf "%s.%s-%s-%s" .Values.postgres.owner .Values.postgres.teamId $root.Values.feature .Values.postgres.dbName }}{{ else }}{{ printf "%s.%s-%s" .Values.postgres.owner .Values.postgres.teamId .Values.postgres.dbName }}{{ end }}
