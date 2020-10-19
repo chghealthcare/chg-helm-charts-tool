@@ -275,3 +275,14 @@ cleanUpIn: 48h
 #  size: 1Gi
 #  numberOfInstances: 1
 #  version: 11
+
+# For Overriding the default deployment strategy
+### For a Rolling update strategy (this is the default behavior but can override the max/min options
+#strategy:
+#  rollingUpdate:
+#    maxSurge: 25%
+#    maxUnavailable: 25%
+#  type: RollingUpdate
+### For a Recreate update strategy. All existing Pods are killed before new ones are created
+#strategy:
+#  type: Recreate
