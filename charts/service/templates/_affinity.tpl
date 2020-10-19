@@ -2,17 +2,19 @@
 {{- if .Values.persistentVolume }}
 affinity:
   nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
+    requiredDuringSchedulingRequiredDuringExecution:
       nodeSelectorTerms:
       - matchExpressions:
         - key: px/enabled
-          operator: NotIn
+          operator: In
           values:
-          - "false"
-        - key: worker-type
-          operator: NotIn
+          - "true"
+      - matchExpressions:
+        - key: NodeType
+          operator: In
           values:
-          - jenkins-workers
+          - "storage"
+
 {{- else if .Values.affinity -}}
 {{- with .Values.affinity }}
 affinity:
@@ -21,12 +23,17 @@ affinity:
 {{- else }}
 affinity:
   nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
+    requiredDuringSchedulingRequiredDuringExecution:
       nodeSelectorTerms:
       - matchExpressions:
-        - key: worker-type
-            operator: NotIn
-            values:
-            - jenkins-workers
+        - key: px/enabled
+          operator: In
+          values:
+          - "false"
+      - matchExpressions:
+        - key: NodeType
+          operator: In
+          values:
+          - "general-purpose"
 {{- end }}
 {{- end }}
