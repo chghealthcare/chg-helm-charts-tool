@@ -2,7 +2,7 @@
 {{- if .Values.persistentVolume }}
 affinity:
   nodeAffinity:
-    requiredDuringSchedulingRequiredDuringExecution:
+    requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
       - matchExpressions:
         - key: px/enabled
@@ -23,7 +23,7 @@ affinity:
 {{- else }}
 affinity:
   nodeAffinity:
-    requiredDuringSchedulingRequiredDuringExecution:
+    requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
       - matchExpressions:
         - key: px/enabled
