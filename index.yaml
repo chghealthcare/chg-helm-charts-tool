@@ -11,6 +11,16 @@ entries:
     urls:
     - https://github.com/chghealthcare/chg-helm-charts-tool/releases/download/chg-database-migrator-0.1.0/chg-database-migrator-0.1.0.tgz
     version: 0.1.0
+  endpoint:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2020-10-21T19:13:59.972356764Z"
+    description: A Helm chart for CHG Platform. Creates endpoints for onprem connectivity
+    digest: 2dda853141dbe04e7d86f37f18ac813001b18b5e5c8c7ab31fd14590c72c55d8
+    name: endpoint
+    urls:
+    - https://github.com/chghealthcare/chg-helm-charts-tool/releases/download/endpoint-1.0.0/endpoint-1.0.0.tgz
+    version: 1.0.0
   service:
   - apiVersion: v2
     appVersion: "1.0"
