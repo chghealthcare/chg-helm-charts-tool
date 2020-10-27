@@ -12,6 +12,7 @@
 {{ end }}
 
 {{ $dbNamespace := printf "%s-database" $releaseNamespace }}
+{{ $dbBackup := printf "%s-daily-backup" $dbClusterName }}
 ---
 apiVersion: "acid.zalan.do/v1"
 kind: postgresql
@@ -20,6 +21,7 @@ metadata:
   namespace: {{ $dbNamespace }}
   labels:
 {{ include "service.commonLabels" . | indent 4 }}
+    cluster-name: {{ $dbClusterName }}
   annotations:
     {{- if .Values.cleanUpIn }}
     janitor/ttl: {{ .Values.cleanUpIn }}
@@ -66,4 +68,26 @@ metadata:
   namespace: {{ $releaseNamespace }}
 data: {}
 
+
+
+# Postgres DB application backup schedule spec
+---
+apiVersion: stork.libopenstorage.org/v1alpha1
+kind: ApplicationBackupSchedule
+metadata:
+  name: {{ printf "%s-daily-backup" $dbClusterName }}
+  namespace: {{ $dbNamespace }}
+spec:
+  reclaimPolicy: Retain
+  schedulePolicyName: default-daily-policy
+  template:
+    spec:
+      backupLocation: s3backup-default
+      namespaces:
+      - {{ $dbNamespace }}
+      postExecRule: ""
+      preExecRule: ""
+      reclaimPolicy: Retain
+      selectors:
+      - cluster-name: {{ $dbClusterName }}
 {{ end }}
