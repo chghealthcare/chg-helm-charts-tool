@@ -43,14 +43,24 @@ spec:
     version: {{ quote .Values.postgres.version }}
 
   nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: px/enabled
-              operator: NotIn
-              values:
-                - "false"
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: px/enabled
+            operator: In
+            values:
+              - "true"
+      - matchExpressions:
+        - key: NodeType
+          operator: In
+          values:
+          - "storage"
 
+  tolerations:
+  - key: "dedicated"
+    operator: "Equal"
+    value: "storage"
+    effect: "NoSchedule"
 
 # Replicated Secret from the {Database Namespace}/{dbOwner Secret}
 ---
