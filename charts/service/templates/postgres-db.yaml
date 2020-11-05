@@ -20,6 +20,7 @@ metadata:
   namespace: {{ $dbNamespace }}
   labels:
 {{ include "service.commonLabels" . | indent 4 }}
+    cluster-name: {{ $dbClusterName }}
   annotations:
     {{- if .Values.cleanUpIn }}
     janitor/ttl: {{ .Values.cleanUpIn }}
@@ -87,7 +88,7 @@ spec:
       preExecRule: ""
       reclaimPolicy: Retain
       selectors:
-      - cluster-name: {{ $dbClusterName }}
+        cluster-name: {{ $dbClusterName }}
       
 {{- end }}
 {{ end }}
