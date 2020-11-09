@@ -11,9 +11,17 @@ metadata:
     {{- end }}
 spec:
   hosts:
+  {{- if .Values.private }}
+  - "{{ .Release.Name }}.{{ .Release.Namespace }}.chgapi.net"
+  {{- else }}
   - "{{ .Release.Name }}.{{ .Release.Namespace }}.platform.aws.chgit.com"
+  {{- end }}
   gateways:
+  {{- if .Values.private }}
+  - "{{ .Release.Namespace }}-private-gateway"
+  {{- else }}
   - "{{ .Release.Namespace }}-gateway"
+  {{- end }}
   http:
   - route:
     - destination:
