@@ -1,5 +1,5 @@
 {{- define "service.affinity" }}
-{{- if .Values.persistentVolume }}
+{{- if or ( .Values.persistentVolume ) ( .Values.postgres) }}
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
