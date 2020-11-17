@@ -202,15 +202,7 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: worker-type
-          operator: NotIn
-          values:
-          - jenkins-workers
+affinity: {}
 
 persistentVolumeClaim: {}
   # This should only be used if a claim does not already exist.  If there is a pre-existing
