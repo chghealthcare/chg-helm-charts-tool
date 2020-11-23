@@ -35,6 +35,10 @@ spec:
       {{- if .Values.persistentVolume }}
       schedulerName: stork
       {{- end }}
+      {{- if .Values.serviceAccountName }}
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      automountServiceAccountToken: true
+      {{- end }}
       {{- if .Values.initContainer }}
       initContainers:
       - name: {{ .Values.initContainer.name }}

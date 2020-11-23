@@ -2,28 +2,27 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-project: ''
-
+project: ""
 
 image:
   repository: # [REQUIRED]
   tag: stable # [REQUIRED]
   pullPolicy: IfNotPresent
 
-feature: ''
+feature: ""
 
-nameOverride: ''
-fullnameOverride: ''
+nameOverride: ""
+fullnameOverride: ""
 
 # [REQUIRED]
 # This is a required field
 # options [development, stage, production]
-environment: 'development'
+environment: "development"
 
 # Database Type. Default to no database.
 #
 # options [neo4j, mysql, postgres]
-databasetype: ''
+databasetype: ""
 
 # This is only needed if you want to implicitly override your ephemeral feature branch database
 # This does not affect your production database type right now.
@@ -51,41 +50,43 @@ service:
 # The health settings are used to determine whether your service is up and running.
 health:
   liveness:
-    path: '/liveness'
+    path: "/liveness"
     initialDelaySeconds: 20
     periodSeconds: 20
     failureThreshold: 3
   readiness:
-    path: '/readiness'
+    path: "/readiness"
     initialDelaySeconds: 30
     periodSeconds: 20
     failureThreshold: 3
-
 
 # [REQUIRED]
 # Each deployment gets its own gateway that maps through the virtual service
 # into the service and finally into the pod.
 istiogateway:
-  _default: 'dev.cs.aws.chgit.com'
-  stage: 'dev.cs.aws.chgit.com'
-  production: 'prod.cs.aws.chgit.com'
+  _default: "dev.cs.aws.chgit.com"
+  stage: "dev.cs.aws.chgit.com"
+  production: "prod.cs.aws.chgit.com"
   corsPolicy:
     enabled: true
     allowMethods:
-    - 'PATCH'
-    - 'GET'
-    - 'POST'
-    - 'DELETE'
-    - 'PUT'
+      - "PATCH"
+      - "GET"
+      - "POST"
+      - "DELETE"
+      - "PUT"
     allowCredentials: true
     maxAge: "24h"
     allowHeaders:
-    - '*'
+      - "*"
     allowOrigin:
-    - '*'
+      - "*"
 
 istioAllowedPaths: []
 istioAllowedMethods: []
+
+# if you need to overight the privalage of one of your deployments
+serviceAccountName:
 
 # Example of how to specify kafka topics to be created
 # 'name' and 'envKey' are required, everything else has defaults
@@ -93,11 +94,11 @@ istioAllowedMethods: []
 # kafkaTopics
 # - name: 'someTopicName'
 #   partitions: 3
-#   replicationFactor: 2 
+#   replicationFactor: 2
 #   envKey: SOME_TOPIC_NAME
 # - name: 'someTopicNameDeadLetter'
 #   partitions: 3
-#   replicationFactor: 2 
+#   replicationFactor: 2
 #   envKey: SOME_TOPIC_NAME_DEAD_LETTER
 
 # postgres:
@@ -105,44 +106,42 @@ istioAllowedMethods: []
 #  dbName: demodb
 #  owner: saadmin
 #  version: 11  # database version
-#  size: 1Gi   # database size 
+#  size: 1Gi   # database size
 #  numberOfInstances: 2 # number of postgres instances 1 - master 2..replica
 
-
-
-# The default values here are: 
+# The default values here are:
 authEnabled: false
 auth:
   _default:
     enabled: true
-    issuer: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7'
-    jwks: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys'
+    issuer: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7"
+    jwks: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys"
     forwardOriginalToken: true
   stage:
     enabled: true
-    issuer: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7'
-    jwks: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys'
+    issuer: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7"
+    jwks: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys"
     forwardOriginalToken: true
   production:
     enabled: true
-    issuer: 'https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7'
-    jwks: 'https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7/v1/keys'
+    issuer: "https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7"
+    jwks: "https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7/v1/keys"
     forwardOriginalToken: true
 
-# The authGlobal values are more constant than regular authorizors. Please overide 
+# The authGlobal values are more constant than regular authorizors. Please overide
 # the other values first before considering changing the globals. Ultimate goal
 # is to remove the first set of values from charts all together. and utalize the
 # authEnabled flag and the global authorizors.
 authGlobal:
   _default:
-    issuer: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7'
-    jwks: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys'
+    issuer: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7"
+    jwks: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys"
   stage:
-    issuer: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7'
-    jwks: 'https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys'
+    issuer: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7"
+    jwks: "https://chghealthcare.oktapreview.com/oauth2/auskmtjacfEi8ffM60h7/v1/keys"
   production:
-    issuer: 'https://chghealthcare.okta.com/oauth2/default'
-    jwks: 'https://chghealthcare.okta.com/oauth2/default/v1/keys'
+    issuer: "https://chghealthcare.okta.com/oauth2/default"
+    jwks: "https://chghealthcare.okta.com/oauth2/default/v1/keys"
 
 envs: []
 # - name: ENVIRONMENT
@@ -174,7 +173,8 @@ configMapKeys: []
 
 ingress:
   enabled: false
-  annotations: {}
+  annotations:
+    {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: 'true'
   hosts:
@@ -186,7 +186,8 @@ ingress:
   #    hosts:
   #      - chart-example.local
 # '977624198390.dkr.ecr.us-west-2.amazonaws.com/neo4j:latest'
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with minimal
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -204,7 +205,8 @@ tolerations: []
 
 affinity: {}
 
-persistentVolumeClaim: {}
+persistentVolumeClaim:
+  {}
   # This should only be used if a claim does not already exist.  If there is a pre-existing
   # claim (e.g. an existing shared volume), you need only attach a persistentVolume (below)
   # and reference the name of the existing claim.
@@ -214,7 +216,8 @@ persistentVolumeClaim: {}
   # type: shared # Valid options: shared, secure, postgres
   # mode: ReadWriteMany # IMPORTANT: for any type other than "shared" the mode should be set to ReadWriteOnce
 
-persistentVolume: {}
+persistentVolume:
+  {}
   # Mount a volume from a persistentVolumeClaim.  If not using a pre-existing claim, you must
   # also enable a new persistentVolumeClaim (above) and reference it by name (claimName) here
   # attach: false
@@ -226,11 +229,10 @@ scaling:
   maxReplicas: 4
   averageCpuUtilization: 50
 
-# This value is what sets the annotation on deployed resources for auto 
+# This value is what sets the annotation on deployed resources for auto
 # clean up in our enabled environments IE: Feature Namespace. If you need
 # your service to stay up longer you can set this to your needs.
 cleanUpIn: 48h
-
 # For creating a Job to run with your service.
 # More information here: https://kubernetes.io/docs/concepts/workloads/controllers/job/
 # jobs:
@@ -247,7 +249,6 @@ cleanUpIn: 48h
 #     - name: NODE_ENV
 #       value: development
 
-
 # Spin up a redis cluster for your service to talk to, an environment variable REDIS_HOST will be set for your service to connect to the cluster with
 # Additional redis config options found here:
 # https://raw.githubusercontent.com/redis/redis/5.0/redis.conf
@@ -256,7 +257,6 @@ cleanUpIn: 48h
 #  config:
 #    maxmemory: "2mb"
 #    repl-ping-replica-period: 10
-
 
 # For creating a PostgresSql DB Cluster
 # More information here: https://github.com/chghealthcare/chg-terraform-infrastructure/wiki/Database-as-a-Service
