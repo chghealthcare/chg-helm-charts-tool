@@ -128,6 +128,19 @@ auth:
     jwks: 'https://chghealthcare.okta.com/oauth2/aus46u1vjfkkTfP7d2p7/v1/keys'
 
 
+# Authz utilizes Istio's built-in route bases authorization bases on the claims that are in the JWT.
+# The current convention only relies on the "groups" claim that the default authorizer
+# implicitly adds to all tokens. That way, the external okta tenant can have a universal way
+# to manage access. Note that currently, this paradigm does not do resource owner or ABAC level
+# access. Please keep dialog close to the SA team for more advanced implementations.
+authz: [] #remove array when uncommenting
+  # - route: '/publicinfo/*'
+  #   groups: ['Everyone']
+  #   verbs: ['GET']
+  # - route: '/divisions/weatherby/*'
+  #   groups: ['SuperAdmins', 'TEST_CONNECT_REP']
+  #   verbs: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
+
 envs: []
 # - name: ENVIRONMENT
 #   value: production
