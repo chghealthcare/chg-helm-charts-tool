@@ -10,3 +10,11 @@ health:
   readiness:
     path: /readiness
     port: 8080
+
+authz: #remove array when uncommenting
+  - route: '/publicinfo/*'
+    groups: ['Everyone']
+    verbs: ['GET']
+  - route: '/divisions/weatherby/*'
+    groups: ['SuperAdmins', 'TEST_CONNECT_REP']
+    verbs: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
