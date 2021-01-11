@@ -37,6 +37,19 @@ spec:
       app.kubernetes.io/name: {{ include "service.name" . }}
   action: ALLOW
   rules:
+{{- range .Values.authz }}
+  - from:
+    - source:
+        principals: ["*"]
+    to:
+      - operation:
+          methods: {{ .verbs | toJson }}
+          paths: 
+            - {{ .route | quote }}
+    when:
+      - key: request.auth.claims[groups]
+        values: {{ .groups | toJson }}
+{{- end }}
   - from:
     - source:
         requestPrincipals: ["{{ $auth.issuer }}/*","{{ $authGlobal.issuer }}/*"]
