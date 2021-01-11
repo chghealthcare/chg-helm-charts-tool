@@ -278,3 +278,11 @@ cleanUpIn: 48h
 ### For a Recreate update strategy. All existing Pods are killed before new ones are created
 #strategy:
 #  type: Recreate
+#
+
+# For forcing a service to be behind the VPN, set this to true.
+# Defaults to false.
+# This will change the gateway that requests go through to the private gateway.
+# It will also change the dns name you need to go through to reach your service,
+# from myservice.prod.chgapi.com (aka myservice.prod.platform.aws.chgit.com) to myservice.prod.chgapi.net
+#private: true
