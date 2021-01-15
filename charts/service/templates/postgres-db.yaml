@@ -57,6 +57,7 @@ metadata:
     replicator.v1.mittwald.de/replicate-from: {{ $dbNamespace }}/{{ $dbOwnerSecret }}
   labels:
     cluster-name: {{ $dbClusterName }}
+{{ include "service.commonLabels" . | indent 4 }}
     team: {{ $teamId }}
   name: {{ $dbOwnerSecret }}
   namespace: {{ $releaseNamespace }}
