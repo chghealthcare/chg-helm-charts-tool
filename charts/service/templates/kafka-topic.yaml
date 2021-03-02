@@ -19,6 +19,12 @@ spec:
   partitions: {{ $kafkaTopic.partitions | default 3 }}
   replicationFactor: {{ $kafkaTopic.replicationFactor | default 2 }}
   config:
+  {{- if $kafkaTopic.config }}
+  {{- range $configKey, $configValue := $kafkaTopic.config }}
+    {{ $configKey | quote }}: {{ $configValue | quote }}
+  {{- end }}
+  {{- else }}
     "retention.ms": "604800000"
     "cleanup.policy": "delete"
+  {{- end }}
 {{ end }}

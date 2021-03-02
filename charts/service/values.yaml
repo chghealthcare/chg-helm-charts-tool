@@ -96,6 +96,9 @@ serviceAccountName:
 #   partitions: 3
 #   replicationFactor: 2
 #   envKey: SOME_TOPIC_NAME
+#   config:
+#     delete.retention.ms: 100
+#     cleanup.policy: compact,delete
 # - name: 'someTopicNameDeadLetter'
 #   partitions: 3
 #   replicationFactor: 2
