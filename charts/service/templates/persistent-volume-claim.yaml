@@ -10,7 +10,6 @@ metadata:
     {{- if .Values.cleanUpIn }}
     janitor/ttl: {{ .Values.cleanUpIn }}
     {{- end }}
-    "helm.sh/hook": pre-install,pre-upgrade
 
 spec:
    accessModes:
