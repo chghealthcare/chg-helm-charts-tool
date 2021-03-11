@@ -12,6 +12,7 @@ metadata:
     {{- if $root.Values.cleanUpIn }}
     janitor/ttl: {{ $root.Values.cleanUpIn }}
     {{- end }}
+    "helm.sh/hook": pre-install,pre-upgrade
 spec:
   clusterRef:
     name: kafka
