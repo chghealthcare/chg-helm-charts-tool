@@ -10,7 +10,6 @@ metadata:
     {{- if .Values.cleanUpIn }}
     janitor/ttl: {{ .Values.cleanUpIn }}
     {{- end }}
-    "helm.sh/hook": pre-install,pre-upgrade
 spec:
   path: "{{ include "service.environmentShort" . }}/{{ .Values.project }}"
   type: "KEYVALUEV2"
