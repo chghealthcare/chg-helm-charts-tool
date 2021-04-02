@@ -302,3 +302,38 @@ cleanUpIn: 48h
 # It will also change the dns name you need to go through to reach your service,
 # from myservice.prod.chgapi.com (aka myservice.prod.platform.aws.chgit.com) to myservice.prod.chgapi.net
 #private: true
+
+### For Creating a ECR Repo using the Platform aws-ecr terraform Module
+## aws-ecr Module Source Repo: https://github.com/chghealthcare/terraform-chg-aws-ecr
+ecr-workspace:
+  enabled: false
+  workspaceDefaults:
+    operatorNamespace: tf-operator
+    organization: CHG
+    terraformVersion: 0.13.5
+  # Workspace configuration settings
+  workspace:
+    namespace: tf-operator
+    region: us-west-2
+    module:
+      name: aws-ecr
+      version: 0.0.6
+
+## Add Below to values.yaml overrides and set the enabled to true to enable this Module
+#ecr-workspace:
+#  enabled: true
+#    name: <workspace name>
+#    config:
+#      name: ecr_config
+#      version: v3
+#      data: |-
+#        {
+#          enabled = true
+#          repos = {
+#            example-repo1 = {
+#              max_image_count     = 10
+#              scan_images_on_push = false
+#              tags                = {}
+#            }
+#          }
+#        }

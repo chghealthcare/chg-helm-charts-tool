@@ -2,4 +2,13 @@ apiVersion: v2
 appVersion: "1.0"
 description: A Helm chart for CHG Platform. Using Istio for ingress.
 name: service
-version: 1.4.22
+version: 1.4.23
+sources:
+- https://github.com/chghealthcare/chg-helm-charts-tool
+- https://github.com/chghealthcare/chg-sre-core-helm/charts/terraform-workspace
+dependencies:
+- name: terraform-workspace
+  alias: ecr-workspace
+  version: 0.0.1
+  repository: https://chartmuseum.shared.aws.chgit.com
+  condition: ecr-workspace.enabled
