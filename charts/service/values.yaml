@@ -328,7 +328,6 @@ ecr-workspace:
 #      version: v3
 #      data: |-
 #        {
-#          enabled = true
 #          repos = {
 #            example-repo1 = {
 #              max_image_count     = 10
