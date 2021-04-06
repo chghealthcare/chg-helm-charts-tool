@@ -9,6 +9,6 @@ sources:
 dependencies:
 - name: terraform-workspace
   alias: ecr-workspace
-  version: 0.0.1
+  version: 1.0.1
   repository: https://chartmuseum.shared.aws.chgit.com
   condition: ecr-workspace.enabled

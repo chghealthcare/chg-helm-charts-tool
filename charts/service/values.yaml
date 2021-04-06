@@ -322,10 +322,11 @@ ecr-workspace:
 ## Add Below to values.yaml overrides and set the enabled to true to enable this Module
 #ecr-workspace:
 #  enabled: true
+#  workspace:
 #    name: <workspace name>
 #    config:
 #      name: ecr_config
-#      version: v3
+#      version: <set valid k8s label for version ex. v1/v-1 etc>
 #      data: |-
 #        {
 #          repos = {
