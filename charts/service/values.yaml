@@ -307,14 +307,8 @@ cleanUpIn: 48h
 ## aws-ecr Module Source Repo: https://github.com/chghealthcare/terraform-chg-aws-ecr
 ecr-workspace:
   enabled: false
-  workspaceDefaults:
-    operatorNamespace: tf-operator
-    organization: CHG
-    terraformVersion: 0.13.5
   # Workspace configuration settings
   workspace:
-    namespace: tf-operator
-    region: us-west-2
     module:
       name: aws-ecr
       version: 0.0.6
