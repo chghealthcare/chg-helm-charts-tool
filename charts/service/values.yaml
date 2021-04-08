@@ -311,7 +311,7 @@ ecr-workspace:
   workspace:
     module:
       name: aws-ecr
-      version: 0.0.6
+      version: 1.0.0
 
 ## Add Below to values.yaml overrides and set the enabled to true to enable this Module
 #ecr-workspace:
