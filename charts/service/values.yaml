@@ -325,9 +325,9 @@ ecr-workspace:
 #        {
 #          repos = {
 #            example-repo1 = {
-#              max_image_count     = 10
-#              scan_images_on_push = false
-#              tags                = {}
+#              tags = {
+#                 environment = "nonprod"
+#              }
 #            }
 #          }
 #        }
