@@ -1,0 +1,76 @@
+{{ $root := . }}
+{{ range $index, $cronjob := $root.Values.cronjobs }}
+{{ $hookAnnotations := index $cronjob.annotations "helm.sh/hook" }}
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "service.fullname" $root }}-cronjob-{{ $index }}
+  labels:
+{{ include "service.commonLabels" $root | indent 4 }}
+  annotations:
+    {{ range $key, $val := $cronjob.annotations }}
+    {{- $key }}: {{ $val }}
+    {{ end }}
+spec:
+  schedule: "{{ $cronjob.schedule }}"
+  {{- if $cronjob.concurrencyPolicy }}
+  concurrencyPolicy: {{ $cronjob.concurrencyPolicy }}
+  {{- end }}
+  {{- if $cronjob.successfulJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ $cronjob.successfulJobsHistoryLimit }}
+  {{- end }}
+  {{- if $cronjob.failedJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ $cronjob.failedJobsHistoryLimit }}
+  {{- end }}
+  {{- if $cronjob.suspend }}
+  suspend: {{ $cronjob.suspend }}
+  {{- end }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ $cronjob.containerName }}
+            image: {{ $cronjob.image }}
+            command: {{ range $cronjob.command }}
+            - {{ . | quote }}{{ end }}
+            env:
+              {{- range $root.Values.envs }}
+                - name: {{ .name | quote }}
+                  value: {{ .value | quote }}
+              {{- end }}
+              {{- range $root.Values.configMapKeys }}
+                - name: {{ .name | quote}}
+                  valueFrom:
+                    configMapKeyRef:
+                        name: {{ .keymap | quote }}
+                        key: {{ .key | quote }}
+              {{- end }}
+              {{- range $root.Values.secretKeys }}
+                - name: {{ .name | quote }}
+                  valueFrom:
+                    secretKeyRef:
+                        name: {{ .secret | quote }}
+                        key: {{ .key | quote }}
+              {{- end }}
+              {{- range .envs }}
+                - name: {{ .name | quote }}
+                  value: {{ .value | quote }}
+              {{- end }}
+            envFrom:
+              {{- if $root.Values.pullVaultSecrets }}{{- if not (contains "pre-install" $hookAnnotations) }}{{- if not (contains "pre-upgrade" $hookAnnotations) }}
+              - secretRef:
+                  name: {{ include "service.fullname" $root | quote }}
+              {{- end }}{{- end }}{{- end }}
+              {{- range $root.Values.secretRefs }}
+              - secretRef:
+                  name: {{ . | quote }}
+              {{- end }}
+              {{- range $root.Values.configMaps }}
+              - configMapRef:
+                  name: {{ . | quote }}
+              {{- end }}
+          restartPolicy: OnFailure
+
+{{ end }}
