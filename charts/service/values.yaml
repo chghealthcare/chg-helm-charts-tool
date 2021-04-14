@@ -151,7 +151,8 @@ authGlobal:
 # implicitly adds to all tokens. That way, the external okta tenant can have a universal way
 # to manage access. Note that currently, this paradigm does not do resource owner or ABAC level
 # access. Please keep dialog close to the SA team for more advanced implementations.
-authz: [] #remove array when uncommenting
+authz:
+  [] #remove array when uncommenting
   # - route: '/publicinfo/*'
   #   groups: ['Everyone']
   #   verbs: ['GET']
@@ -302,3 +303,16 @@ cleanUpIn: 48h
 # It will also change the dns name you need to go through to reach your service,
 # from myservice.prod.chgapi.com (aka myservice.prod.platform.aws.chgit.com) to myservice.prod.chgapi.net
 #private: true
+
+# Run scheduled jobs via the cronjobs template
+# cronjobs:
+#   - containerName: "chg-leads-intake-api-ping-test"
+#     schedule: "*/2 * * * *"
+#     successfulJobsHistoryLimit: 1
+#     failedJobsHistoryLimit: 2
+#     concurrencyPolicy: Replace
+#     # image is set in helm upgrade command
+#     command: ["npm", "run", "test:ping"]
+#     annotations:
+#       "helm.sh/hook": post-install,post-upgrade
+#       "helm.sh/hook-delete-policy": before-hook-creation
