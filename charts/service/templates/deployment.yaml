@@ -61,6 +61,8 @@ spec:
           {{- range .Values.kafkaTopics }}
             - name: {{ .envKey | quote }}
               value: {{ if $root.Values.feature }}{{ printf "%s-%s" $root.Values.feature .name }}{{ else }}{{ .name }}{{ end }}
+            - name: {{ .envKey }}_PARTITIONS
+              value: {{ .partitions  | default 3 }}
           {{- end }}
           {{- range .Values.configMapKeys }}
             - name: {{ .name | quote}}
