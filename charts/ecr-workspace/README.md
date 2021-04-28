@@ -41,7 +41,7 @@ helm repo add chg https://chghealthcare.github.io/chg-helm-charts-tool/
 
 ## Deployment TLDR
 ```
-helm  upgrade -f ./values-ecr.yaml --install chg/ecr-workspace
+helm  upgrade -f ./values-ecr.yaml --install chg/ecr-workspace --namespace=tf-operator
 ```
 ## Test Deployment Template locally
 ```
