@@ -26,6 +26,13 @@ If release name contains chart name it will be used as a full name.
 {{- define "service.fullname" -}}
 {{- printf "%s-%s" .Values.feature .Values.project | trunc 63 | trimPrefix "-" | trimSuffix "-" -}}
 {{- end -}}
+{{/*
+The redis operator prepends 'redis-' and appends '-headless' to the service names automatically,
+so for redis we need to truncate down to 48 characters (15 + 48 = 63) as the maximum length 
+*/}}
+{{- define "service.redisFullname" -}}
+{{- printf "%s-%s" .Values.feature .Values.project | trunc 48 | trimPrefix "-" | trimSuffix "-" -}}
+{{- end -}}
 
 {{/*
 Create chart name and version as used by the chart label.
