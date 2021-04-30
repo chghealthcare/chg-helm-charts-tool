@@ -3,7 +3,7 @@
 apiVersion: k8s.amaiz.com/v1alpha1
 kind: Redis
 metadata:
-  name: {{ include "service.fullname" . }}
+  name: {{ include "service.redisFullname" . }}
   namespace: {{ .Release.Namespace }}-database
   labels:
 {{ include "service.commonLabels" . | indent 4 }}
