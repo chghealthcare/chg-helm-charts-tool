@@ -98,7 +98,7 @@ spec:
           {{- end }}
           {{- if .Values.redis }}
             - name: REDIS_HOST
-              value: redis-{{ include "service.fullname" . }}-master.{{ .Release.Namespace }}-database.svc.cluster.local
+              value: redis-{{ include "service.redisFullname" . }}-master.{{ .Release.Namespace }}-database.svc.cluster.local
           {{- end }}
           envFrom:
           {{- if .Values.pullVaultSecrets }}
