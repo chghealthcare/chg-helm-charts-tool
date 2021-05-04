@@ -27,11 +27,13 @@ If release name contains chart name it will be used as a full name.
 {{- printf "%s-%s" .Values.feature .Values.project | trunc 63 | trimPrefix "-" | trimSuffix "-" -}}
 {{- end -}}
 {{/*
-The redis operator prepends 'redis-' and appends '-headless' to the service names automatically,
-so for redis we need to truncate down to 48 characters (15 + 48 = 63) as the maximum length 
+The redis operator prepends 'redis-' and appends a dash plus 10 random characters to 
+pod labels and service names (but -headless for service names) automatically.
+The label is formatted like this (6 characters + 46 characters + 11 characters) = 63 characters:
+redis-<>-7f555fc786
 */}}
 {{- define "service.redisFullname" -}}
-{{- printf "%s-%s" .Values.feature .Values.project | trunc 48 | trimPrefix "-" | trimSuffix "-" -}}
+{{- printf "%s-%s" .Values.feature .Values.project | trunc 46 | trimPrefix "-" | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
