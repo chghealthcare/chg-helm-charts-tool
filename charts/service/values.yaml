@@ -320,33 +320,34 @@ cleanUpIn: 48h
 # Create kibana watchers, this is directly sent in the same structure as the REST api found here:
 # https://www.elastic.co/guide/en/elasticsearch/reference/7.9/watcher-api-put-watch.html
 #
-# kibana-watchers:
-# - name: alert-on-404
-#   trigger:
-#     schedule:
-#       cron: "0 0/1 * * * ?"
-#   input:
-#     search:
-#       request:
-#         indices:
-#         - logstash*
-#         body:
-#           query:
-#             bool:
-#               must:
-#                 match:
-#                   response: 404
-#               filter:
-#                 range:
-#                   "@timestamp":
-#                     from: "{{ctx.trigger.scheduled_time}}||-5m"
-#                     to: "{{ctx.trigger.triggered_time}}"
-#    condition:
-#      compare:
-#        "ctx.payload.hits.total":
-#          gt: 0
-#    actions:
-#      email_admin:
-#        email:
-#          to: "admin@domain.host.com"
-#          subject: "404 recently encountered"
+#kibanaWatchers:
+#  - name: alert-on-404
+#    definition:
+#      trigger:
+#        schedule:
+#          cron: "0 0/1 * * * ?"
+#      input:
+#        search:
+#          request:
+#            indices:
+#            - logstash*
+#            body:
+#              query:
+#                bool:
+#                  must:
+#                    match:
+#                      response: 404
+#                  filter:
+#                    range:
+#                      "@timestamp":
+#                        from: "{{ctx.trigger.scheduled_time}}||-5m"
+#                        to: "{{ctx.trigger.triggered_time}}"
+#      condition:
+#        compare:
+#          "ctx.payload.hits.total":
+#            gt: 0
+#      actions:
+#        email_admin:
+#          email:
+#            to: "admin@domain.host.com"
+#            subject: "404 recently encountered"

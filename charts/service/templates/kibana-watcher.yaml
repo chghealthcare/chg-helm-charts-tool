@@ -1,17 +1,18 @@
 {{ $root := . }}
-{{ range $index, $watcher := .Values.kibana-watchers }}
+{{ range $index, $watcher := .Values.kibanaWatchers }}
 ---
 apiVersion: alert.my.domain/v1alpha1
 kind: KibanaWatcher
 metadata:
-  name: {{ include "service.fullname" $root }}-{{ $watcher.name }}-{{ .Release.Namespace }}
+  name: {{ include "service.fullname" $root }}-{{ $watcher.name }}-{{ $root.Release.Namespace }}
   labels:
-{{ include "service.commonLabels" . | indent 4 }}
+{{ include "service.commonLabels" $root | indent 4 }}
   annotations:
-    {{- if .Values.cleanUpIn }}
-    janitor/ttl: {{ .Values.cleanUpIn }}
+    {{- if $root.Values.cleanUpIn }}
+    janitor/ttl: {{ $root.Values.cleanUpIn }}
     {{- end }}
 spec:
-{{ $watcher | indent 2}}
+  definition: |
+    {{ $watcher.definition | toJson | indent 4 }}
 
 {{ end }}
