@@ -1,0 +1,17 @@
+{{ $root := . }}
+{{ range $index, $watcher := .Values.watchers }}
+---
+apiVersion: alert.my.domain/v1alpha1
+kind: KibanaWatcher
+metadata:
+  name: {{ include "service.fullname" $root }}-{{ $watcher.name }}-{{ .Release.Namespace }}
+  labels:
+{{ include "service.commonLabels" . | indent 4 }}
+  annotations:
+    {{- if .Values.cleanUpIn }}
+    janitor/ttl: {{ .Values.cleanUpIn }}
+    {{- end }}
+spec:
+{{ $watcher | indent 2}}
+
+{{ end }}
