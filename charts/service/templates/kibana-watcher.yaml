@@ -1,5 +1,5 @@
 {{ $root := . }}
-{{ range $index, $watcher := .Values.watchers }}
+{{ range $index, $watcher := .Values.kibana-watchers }}
 ---
 apiVersion: alert.my.domain/v1alpha1
 kind: KibanaWatcher
