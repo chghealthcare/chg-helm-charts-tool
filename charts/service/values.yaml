@@ -54,11 +54,13 @@ health:
     initialDelaySeconds: 20
     periodSeconds: 20
     failureThreshold: 3
+    timeoutSeconds: 1
   readiness:
     path: "/readiness"
     initialDelaySeconds: 30
     periodSeconds: 20
     failureThreshold: 3
+    timeoutSeconds: 1
 
 # [REQUIRED]
 # Each deployment gets its own gateway that maps through the virtual service
