@@ -105,13 +105,13 @@ serviceAccountName:
 #   envKey: SOME_TOPIC_NAME_DEAD_LETTER
 
 postgres:
-  teamId: doggy
+  teamId: sateam
   dbName: appcatlog
   owner: saowner
   version: 11  # database version
   size: 1Gi   # database size
   numberOfInstances: 1
-  restoredb: hello
+  restoredb: sateam-appcatlog-daily-backup-daily-2021-05-23-233000
 
 # The default values here are:
 authEnabled: false
