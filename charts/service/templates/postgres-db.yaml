@@ -126,7 +126,7 @@ metadata:
     backupName: {{ .Values.postgres.restoredb }}
     backupLocation: s3backup-default
     namespaceMapping:
-      stage-database: stage-database
+      {{ $dbNamespace }}: {{ $dbNamespace }}
 {{- end}}
          
 {{ end }}    
