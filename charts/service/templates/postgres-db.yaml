@@ -86,9 +86,6 @@ spec:
       selectors:
         cluster-name: {{ $dbClusterName }}
 
-{{- end }}
-
-{{- if or (eq .Values.environment "stage") (eq .Values.environment "prod")}}
 # Helm Job hook on pre-delete backup postgres db cluster
 ---
 apiVersion: stork.libopenstorage.org/v1alpha1
@@ -104,18 +101,14 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded    
   spec:
     backupLocation: s3backup-default
-    namespaces:
-    - {{ $dbNamespace }}
-   reclaimPolicy: Delete
-   selectors:
-     cluster-name: $dbClusterName
-   preExecRule:
-   postExecRule:
+    reclaimPolicy: Delete
+    selectors:
+      cluster-name: {{ $dbClusterName }}
+    preExecRule:
+    postExecRule:
+{{- end }} 
 
-{{- end }}
-
-{{- if or (eq .Values.environment "stage") (eq .Values.environment "prod") }}
-{{- if .Values.postgres.restoredb }}
+{{- if and (or (eq .Values.environment "stage") (eq .Values.environment "prod")) (.Values.postgres.restoredb) }}
 # Helm Job hook on pre-install to restore postgres db cluster from the last backup
 ---
 apiVersion: stork.libopenstorage.org/v1alpha1
@@ -133,8 +126,7 @@ metadata:
     backupName: {{ .Values.postgres.restoredb }}
     backupLocation: s3backup-default
     namespaceMapping:
-        {{ $dbNamespace }}: {{ $dbNamespace }}   
-        
-{{- end }}
-{{- end }}
-{{ end }}
+      stage-database: stage-database
+{{- end}}
+         
+{{ end }}    

@@ -111,7 +111,7 @@ postgres:
   version: 11  # database version
   size: 1Gi   # database size
   numberOfInstances: 1
-  restoredb: mydb-name-is-123-222:121
+  restoredb: hello
 
 # The default values here are:
 authEnabled: false
