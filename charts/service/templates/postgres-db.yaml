@@ -106,27 +106,5 @@ metadata:
       cluster-name: {{ $dbClusterName }}
     preExecRule:
     postExecRule:
-{{- end }} 
-
-{{- if and (or (eq .Values.environment "stage") (eq .Values.environment "prod")) (.Values.postgres.restoredb) }}
-# Helm Job hook on pre-install to restore postgres db cluster from the last backup
----
-apiVersion: stork.libopenstorage.org/v1alpha1
-kind: ApplicationRestore
-metadata:
-  name: {{ .Values.postgres.restoredb }}
-  namespace: {{ $dbNamespace }}
-  annotations:
-    # This is what defines this resource as a hook. Without this line, the
-    # job is considered part of the release.
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "-5"
-    "helm.sh/hook-delete-policy": hook-succeeded    
-  spec:
-    backupName: {{ .Values.postgres.restoredb }}
-    backupLocation: s3backup-default
-    namespaceMapping:
-      {{ $dbNamespace }}: {{ $dbNamespace }}
-{{- end}}
-         
+{{- end }}          
 {{ end }}    

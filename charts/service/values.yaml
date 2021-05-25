@@ -17,7 +17,7 @@ fullnameOverride: ""
 # [REQUIRED]
 # This is a required field
 # options [development, stage, production]
-environment: "stage"
+environment: "development"
 
 # Database Type. Default to no database.
 #
@@ -104,14 +104,13 @@ serviceAccountName:
 #   replicationFactor: 2
 #   envKey: SOME_TOPIC_NAME_DEAD_LETTER
 
-postgres:
-  teamId: sateam
-  dbName: appcatlog
-  owner: saowner
-  version: 11  # database version
-  size: 1Gi   # database size
-  numberOfInstances: 1
-  restoredb: sateam-appcatlog-daily-backup-daily-2021-05-23-233000
+#postgres:
+#  teamId: sateam
+#  dbName: appcatlog
+#  owner: saowner
+#  version: 11  # database version
+#  size: 1Gi   # database size
+#  numberOfInstances: 1
 
 # The default values here are:
 authEnabled: false
