@@ -299,12 +299,20 @@ cleanUpIn: 48h
 #  type: Recreate
 #
 
-# For forcing a service to be behind the VPN, set this to true.
+# For setting a service to be behind the VPN, set this to true.
 # Defaults to false.
-# This will change the gateway that requests go through to the private gateway.
-# It will also change the dns name you need to go through to reach your service,
-# from myservice.prod.chgapi.com (aka myservice.prod.platform.aws.chgit.com) to myservice.prod.chgapi.net
+# This will add the private gateway for the istio virtual service.
+# It will also add a new dns subdomain you can use to reach your service,
+# `chg-some-project-service.prod.chgapi.net`
 #private: true
+
+
+# For setting a service to be publicly accessible, set this to true.
+# Defaults to true. (Future versions of the helm charts will default this to false, it's recommended to set this explicitly)
+# This will add the public gateway for the istio virtual service.
+# It will also add a dns subdomain you can use to reach your service,
+# `chg-some-project-service.prod.chgapi.com`
+#public: true
 
 # Run scheduled jobs via the cronjobs template
 # cronjobs:

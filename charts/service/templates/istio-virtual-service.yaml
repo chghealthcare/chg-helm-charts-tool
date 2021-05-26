@@ -13,14 +13,16 @@ spec:
   hosts:
   {{- if .Values.private }}
   - "{{ .Release.Name }}.{{ .Release.Namespace }}.chgapi.net"
-  {{- else }}
+  {{- end }}
+  {{- if or (not .Values.private) (.Values.public) }}
   - "{{ .Release.Name }}.{{ .Release.Namespace }}.platform.aws.chgit.com"
   - "{{ .Release.Name }}.{{ .Release.Namespace }}.chgapi.com"
   {{- end }}
   gateways:
   {{- if .Values.private }}
   - "{{ .Release.Namespace }}-private-gateway"
-  {{- else }}
+  {{- end }}
+  {{- if or (not .Values.private) (.Values.public) }}
   - "{{ .Release.Namespace }}-gateway"
   - "{{ .Release.Namespace }}-chgapi-gateway"
   {{- end }}
