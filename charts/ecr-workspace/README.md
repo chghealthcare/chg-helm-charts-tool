@@ -1,6 +1,6 @@
 # Terraform ECR Workspace 
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![AppVersion: 1.0.3](https://img.shields.io/badge/AppVersion-1.0.3-informational?style=flat-square)
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![AppVersion: 1.0.19](https://img.shields.io/badge/AppVersion-1.0.19-informational?style=flat-square)
 
 Child Chart for Creating ECR Repositories using the Terraform Operator
 
@@ -12,7 +12,7 @@ Child Chart for Creating ECR Repositories using the Terraform Operator
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://chartmuseum.shared.aws.chgit.com | ecr-workspace(terraform-workspace) | 1.0.3 |
+| https://chartmuseum.shared.aws.chgit.com | ecr-workspace(terraform-workspace) | 1.0.19 |
 
 ## Usage
 
