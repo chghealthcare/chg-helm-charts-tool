@@ -87,7 +87,7 @@ istiogateway:
 istioAllowedPaths: []
 istioAllowedMethods: []
 
-# if you need to overight the privalage of one of your deployments
+# if you need to overwrite the privilege of one of your deployments
 serviceAccountName:
 
 # Example of how to specify kafka topics to be created
