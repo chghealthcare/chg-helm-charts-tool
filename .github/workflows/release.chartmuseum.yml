@@ -28,7 +28,7 @@ jobs:
         run: |
           for CHART_NAME in $CHART_FOLDER/*/; do
             {
-              helm push $CHART_NAME chg
+              helm push $CHART_NAME chg --dependency-update
             } || {
               echo "Unable to push $CHART_NAME"
             }
