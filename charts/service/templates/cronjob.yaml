@@ -12,6 +12,9 @@ metadata:
     {{ range $key, $val := $cronjob.annotations }}
     {{- $key }}: {{ $val }}
     {{ end }}
+    {{- if .Values.cleanUpIn }}
+    janitor/ttl: {{ .Values.cleanUpIn }}
+    {{- end }}
 spec:
   schedule: "{{ $cronjob.schedule }}"
   {{- if $cronjob.concurrencyPolicy }}
