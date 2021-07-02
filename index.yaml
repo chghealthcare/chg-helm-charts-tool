@@ -24,6 +24,15 @@ entries:
   service:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2021-07-02T15:11:18.411527162Z"
+    description: A Helm chart for CHG Platform. Using Istio for ingress.
+    digest: 06033f1a26c89aede44a9a410c0e2d9a745d3cdc63d84d94953281ce945d231a
+    name: service
+    urls:
+    - https://github.com/chghealthcare/chg-helm-charts-tool/releases/download/service-1.4.30/service-1.4.30.tgz
+    version: 1.4.30
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2021-06-03T15:08:31.483489908Z"
     description: A Helm chart for CHG Platform. Using Istio for ingress.
     digest: 873ca4ed0722ae08bdc80a5e88012c6b0fa0a32eb36c8617837aee27398fb8a2
