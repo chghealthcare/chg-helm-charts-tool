@@ -39,6 +39,16 @@ spec:
       serviceAccountName: {{ .Values.serviceAccountName }}
       automountServiceAccountToken: true
       {{- end }}
+      {{- if .Values.hostAliases}}
+      hostAliases:
+      {{- range .Values.hostAliases}}
+      - ip: {{ .ip | quote}}
+        hostnames:
+        {{- range .hostnames}}
+        - {{. | quote}}
+        {{- end}}
+      {{- end}}
+      {{- end}}
       {{- if .Values.initContainer }}
       initContainers:
       - name: {{ .Values.initContainer.name }}

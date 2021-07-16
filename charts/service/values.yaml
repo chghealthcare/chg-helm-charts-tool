@@ -287,6 +287,18 @@ cleanUpIn: 48h
 #  numberOfInstances: 1
 #  version: 11
 
+# For adding mapping to /etc/hosts of the service
+# More information here: https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/
+#hostAliases:
+#- ip: "127.0.0.1"
+#  hostnames:
+#  - "foo.local"
+#  - "bar.local"
+#- ip: "10.1.2.3"
+#  hostnames:
+#  - "foo.remote"
+#  - "bar.remote"
+
 # For Overriding the default deployment strategy
 ### For a Rolling update strategy (this is the default behavior but can override the max/min options
 #strategy:
