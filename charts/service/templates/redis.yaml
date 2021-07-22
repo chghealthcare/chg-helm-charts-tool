@@ -6,6 +6,7 @@ metadata:
   name: {{ include "service.redisFullname" . }}
   namespace: {{ .Release.Namespace }}-database
   labels:
+    cluster-name: {{ include "service.redisFullname" . }}
 {{ include "service.commonLabels" . | indent 4 }}
   annotations:
     {{- if .Values.cleanUpIn }}
@@ -22,6 +23,17 @@ spec:
   {{ end }}
 
   affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: cluster-name
+              operator: In
+              values:
+              - {{ include "service.redisFullname" . }}
+          topologyKey: kubernetes.io/hostname
+        weight: 70
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -68,23 +80,4 @@ spec:
       runAsGroup: 7777777
       fsGroup: 7777777
       runAsNonRoot: true
-  volumes:
-  - name: sys
-    hostPath:
-      path: /sys
-  initContainers:
-  - name: disable-thp
-    image: busybox
-    command: ["sh", "-c"]
-    args:
-    - |-
-      set -e
-      set -o pipefail
-      echo never > /rootfs/sys/kernel/mm/transparent_hugepage/enabled
-      grep -q -F [never] /sys/kernel/mm/transparent_hugepage/enabled
-    volumeMounts:
-    - name: sys
-      mountPath: /rootfs/sys
-      type: Directory
-
 {{ end }}

@@ -43,7 +43,20 @@ spec:
   postgresql:
     version: {{ quote .Values.postgres.version }}
 
-  {{ include "service.affinity" . | indent 2 }}
+  schedulerName: stork
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: px/enabled
+          operator: In
+          values:
+          - "true"
+      - matchExpressions:
+        - key: NodeType
+          operator: In
+          values:
+          - "storage"
   {{ include "service.tolerations" . | indent 2 }}
 
 
